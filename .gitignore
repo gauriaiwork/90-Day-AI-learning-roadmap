@@ -1,9 +1,0 @@
-# PyInstaller / desktop build output (not needed for the website)
-build/
-dist/
-*.spec
-*.exe
-__pycache__/
-*.pyc
-report.txt
-.DS_Store
