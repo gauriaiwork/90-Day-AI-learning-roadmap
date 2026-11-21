@@ -1,0 +1,3049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My AI Learning Roadmap — 90 Days</title>
+
+<!-- PWA: installable on phone/desktop home screens -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1a1612">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AI Roadmap">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400;1,9..144,600&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ed;
+  --bg-2: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f0ebe1;
+  --border: #ddd5c5;
+  --border-bright: #b8ad97;
+  --text: #1a1612; /* Deep espresso for high readability */
+  --text-muted: #5a5246;
+  --text-dim: #8c8474;
+  --lime: #4d7c0f; /* Darker forest lime for accessibility on white */
+  --lime-bright: #65a30d;
+  --lime-dim: #84cc16;
+  --coral: #c2410c;
+  --gold: #a16207;
+  --sage: #15803d;
+  --pink: #be185d;
+  --display: 'Fraunces', serif;
+  --sans: 'Space Grotesk', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #14120f;
+  --bg-2: #1c1a16;
+  --surface: #1c1a16;
+  --surface-2: #262319;
+  --border: #383327;
+  --border-bright: #524a38;
+  --text: #f3efe4;
+  --text-muted: #b3a996;
+  --text-dim: #7d735e;
+  --lime: #a3e635;
+  --lime-bright: #84cc16;
+  --lime-dim: #65a30d;
+  --coral: #fb923c;
+  --gold: #fbbf24;
+  --sage: #4ade80;
+  --pink: #f472b6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body, .question, .week-card, .modal, .topbar, .chip, .progress-pill, .opt-btn, .task-resource, .skill-tree-wrap, .stat, .toast, .streak-chip, .theme-toggle {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease;
+}
+
+body { min-height: 100vh; position: relative; }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bg-glow::before, .bg-glow::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.15;
+}
+.bg-glow::before {
+  width: 600px; height: 600px;
+  background: var(--lime-bright);
+  top: -200px; right: -100px;
+  animation: drift1 25s ease-in-out infinite;
+}
+.bg-glow::after {
+  width: 500px; height: 500px;
+  background: var(--coral);
+  bottom: -150px; left: -100px;
+  animation: drift2 30s ease-in-out infinite;
+}
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-100px, 50px) scale(1.1); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(80px, -60px) scale(0.9); }
+}
+
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: block; }
+
+#setup { padding: 60px 24px 80px; max-width: 1100px; margin: 0 auto; }
+.setup-header { text-align: center; margin-bottom: 64px; }
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--lime);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+.display-title {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: clamp(40px, 7vw, 80px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+.display-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--lime);
+  position: relative;
+}
+.display-title em::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0.05em;
+  height: 0.08em;
+  background: var(--lime);
+  opacity: 0.3;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: underline 1.2s 0.5s ease-out forwards;
+}
+@keyframes underline { to { transform: scaleX(1); } }
+
+.subtitle {
+  font-size: 18px;
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 24px auto 0;
+  line-height: 1.55;
+}
+
+.questions { display: grid; gap: 28px; margin-bottom: 48px; }
+.question {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.question::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+}
+.question.answered { border-color: var(--lime-bright); }
+.question.answered::before { background: linear-gradient(90deg, transparent, var(--lime-bright), transparent); }
+
+.q-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px; }
+.q-number { font-family: var(--mono); font-size: 13px; color: var(--lime); font-weight: 500; }
+.q-title { font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
+.q-hint { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; margin-left: 36px; margin-top: -8px; }
+
+.options { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-left: 36px; }
+.opt-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 16px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  position: relative;
+  line-height: 1.35;
+}
+.opt-btn:hover { border-color: var(--border-bright); background: var(--surface-2); transform: translateY(-1px); }
+.opt-btn.selected { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 600; }
+.opt-btn.selected::after { content: '✓'; position: absolute; top: 12px; right: 14px; font-size: 14px; font-weight: 700; }
+
+.generate-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 48px; }
+.generate-btn {
+  background: var(--text);
+  color: var(--bg);
+  border: none;
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 700;
+  padding: 18px 40px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.01em;
+  position: relative;
+  overflow: hidden;
+}
+.generate-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 40px -8px rgba(0,0,0,0.2); }
+.generate-btn:disabled { background: var(--surface-2); color: var(--text-dim); cursor: not-allowed; box-shadow: none; }
+.generate-hint { font-size: 13px; color: var(--text-dim); font-family: var(--mono); }
+
+#roadmap { padding-bottom: 80px; }
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(247, 244, 237, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; color: var(--text); }
+.logo-mark {
+  width: 28px; height: 28px;
+  background: var(--text);
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-mark::after {
+  content: '';
+  width: 14px; height: 14px;
+  border: 2px solid var(--bg);
+  border-radius: 50%;
+  border-right-color: transparent;
+  animation: spin 3s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.profile-chips { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; justify-content: center; }
+.chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chip:hover { border-color: var(--text); color: var(--text); }
+.chip-label { color: var(--text-dim); }
+.chip-value { color: var(--text); font-weight: 500; }
+
+.progress-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.progress-pill .num { color: var(--lime); font-weight: 600; font-size: 14px; }
+.progress-pill .total { color: var(--text-dim); }
+
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.streak-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-family: var(--mono);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+.streak-chip .flame { font-size: 13px; }
+.streak-chip .streak-num { color: var(--coral); font-weight: 700; font-size: 14px; }
+
+.icon-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 34px; height: 34px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: all 0.2s;
+}
+.icon-btn:hover { border-color: var(--border-bright); color: var(--text); transform: translateY(-1px); }
+
+.theme-toggle .sun { display: none; }
+.theme-toggle .moon { display: inline; }
+[data-theme="dark"] .theme-toggle .sun { display: inline; }
+[data-theme="dark"] .theme-toggle .moon { display: none; }
+
+.roadmap-main { max-width: 1280px; margin: 0 auto; padding: 48px 24px 0; }
+.hero { margin-bottom: 64px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: end; }
+@media (max-width: 900px) { .hero { grid-template-columns: 1fr; } }
+
+.hero-text .eyebrow { margin-bottom: 16px; }
+.hero-title {
+  font-family: var(--display);
+  font-size: clamp(36px, 5vw, 60px);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+.hero-title em { font-style: italic; color: var(--lime); font-weight: 400; }
+.hero-sub { font-size: 17px; color: var(--text-muted); line-height: 1.55; max-width: 540px; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.stat { background: var(--surface); padding: 20px 16px; text-align: center; }
+.stat-num { font-family: var(--display); font-size: 32px; font-weight: 700; color: var(--text); line-height: 1; margin-bottom: 6px; }
+.stat-num.lime { color: var(--lime); }
+.stat-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.15em; }
+
+.progress-ring-wrap { display: flex; align-items: center; justify-content: center; gap: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; }
+.progress-ring-svg { flex-shrink: 0; }
+.progress-ring-track { fill: none; stroke: var(--border); stroke-width: 8; }
+.progress-ring-fill { fill: none; stroke: var(--lime-bright); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.65,0,0.35,1); transform: rotate(-90deg); transform-origin: 50% 50%; }
+.progress-ring-pct { font-family: var(--display); font-size: 20px; font-weight: 700; fill: var(--text); }
+.progress-ring-text { flex: 1; }
+.progress-ring-title { font-family: var(--display); font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.progress-ring-sub { font-size: 13px; color: var(--text-muted); }
+
+.phase-intro { display: flex; align-items: flex-start; gap: 14px; padding: 18px 20px; margin: 28px 0 14px; border-radius: 12px; border: 1px dashed var(--border-bright); background: var(--surface-2); }
+.phase-intro:first-child { margin-top: 0; }
+.phase-intro-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.phase-intro-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+.phase-intro-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+.week-card { opacity: 0; animation: cardIn 0.5s ease forwards; }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+.task.stretch-hidden { display: none; }
+.stretch-toggle {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--lime);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 0 2px;
+  text-align: left;
+  font-weight: 600;
+}
+.stretch-toggle:hover { text-decoration: underline; }
+.task-badge { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; background: rgba(190, 24, 93, 0.12); color: var(--pink); font-weight: 700; margin-left: 8px; vertical-align: middle; }
+
+.resource-lib { background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+.resource-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.res-filter-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 7px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.res-filter-btn:hover { border-color: var(--border-bright); }
+.res-filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); }
+.resource-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.res-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s;
+}
+.res-card:hover { border-color: var(--border-bright); transform: translateY(-1px); }
+.res-card-name { font-size: 13px; font-weight: 500; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.res-empty { font-size: 13px; color: var(--text-dim); padding: 20px; text-align: center; }
+
+.export-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+@media print {
+  body::before, .bg-glow, #confetti, .topbar, .generate-wrap, .modal-backdrop, .toast, .skill-tree-wrap, .stretch-toggle, .section-desc, .resource-filters { display: none !important; }
+  .week-card { opacity: 1 !important; box-shadow: none !important; break-inside: avoid; }
+  .week-tasks { max-height: none !important; }
+  body { background: #fff; color: #000; }
+  .roadmap-main { max-width: 100%; padding: 0; }
+}
+
+.section { margin-bottom: 64px; }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.section-head h2 { font-family: var(--display); font-size: 28px; font-weight: 600; letter-spacing: -0.015em; color: var(--text); }
+.section-head h2 em { font-style: italic; color: var(--lime); font-weight: 400; }
+.section-desc { font-size: 13px; color: var(--text-muted); max-width: 380px; text-align: right; }
+
+.skill-tree-wrap {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 24px;
+  overflow-x: auto;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.skill-tree-wrap::-webkit-scrollbar { height: 6px; }
+.skill-tree-wrap::-webkit-scrollbar-track { background: var(--bg); }
+.skill-tree-wrap::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 3px; }
+#skill-tree { display: block; min-width: 900px; height: 320px; }
+@media (max-width: 700px) { #skill-tree { min-width: 640px; height: 280px; } }
+
+.skill-legend { display: flex; gap: 24px; margin-top: 20px; flex-wrap: wrap; font-size: 12px; font-family: var(--mono); }
+.legend-item { display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+.skill-path-bg { fill: none; stroke: var(--border); stroke-width: 2; stroke-dasharray: 4 4; }
+.skill-path-fg { fill: none; stroke: var(--lime-bright); stroke-width: 2.5; filter: drop-shadow(0 0 8px rgba(101, 163, 13, 0.4)); transition: stroke-dashoffset 0.8s ease; }
+.node-g { cursor: pointer; transition: transform 0.2s; }
+.node-circle { stroke-width: 2.5; transition: all 0.3s; }
+.node-g.locked .node-circle { fill: var(--bg); stroke: var(--border-bright); }
+.node-g.locked .node-text { fill: var(--text-dim); }
+.node-g.active .node-circle { fill: var(--surface); stroke: var(--lime-bright); animation: pulse 2s ease-in-out infinite; }
+.node-g.active .node-text { fill: var(--lime-bright); }
+.node-g.complete .node-circle { fill: var(--lime-bright); stroke: var(--lime-bright); }
+.node-g.complete .node-text { fill: var(--bg); font-weight: 700; }
+@keyframes pulse {
+  0%, 100% { stroke-opacity: 1; filter: drop-shadow(0 0 0 var(--lime-bright)); }
+  50% { stroke-opacity: 0.6; filter: drop-shadow(0 0 12px var(--lime-bright)); }
+}
+
+.node-label { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); text-anchor: middle; text-transform: uppercase; letter-spacing: 0.1em; pointer-events: none; }
+.node-g.complete .node-label, .node-g.active .node-label { fill: var(--text); }
+.phase-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-anchor: middle; text-transform: uppercase; font-weight: 600; }
+
+.week-card {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.week-card.locked { opacity: 0.5; pointer-events: none; }
+.week-card.complete { border-color: var(--lime-bright); }
+.week-card.complete::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--lime-bright); }
+.week-card.active-week { border-color: var(--lime-bright); box-shadow: 0 0 0 1px var(--lime-bright), 0 8px 40px -12px rgba(101, 163, 13, 0.3); }
+
+.week-head { padding: 24px 28px; display: flex; align-items: center; gap: 24px; cursor: pointer; user-select: none; }
+.week-num-block { display: flex; flex-direction: column; align-items: center; min-width: 60px; }
+.week-num-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.15em; }
+.week-num { font-family: var(--display); font-size: 36px; font-weight: 700; line-height: 1; color: var(--text); }
+.week-card.complete .week-num { color: var(--lime); }
+
+.week-info { flex: 1; min-width: 0; }
+.week-phase { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; font-weight: 600; }
+.week-phase.foundations { background: rgba(21, 128, 61, 0.12); color: var(--sage); }
+.week-phase.tools { background: rgba(161, 98, 7, 0.12); color: var(--gold); }
+.week-phase.building { background: rgba(77, 124, 15, 0.12); color: var(--lime); }
+.week-phase.advanced { background: rgba(194, 65, 12, 0.12); color: var(--coral); }
+.week-phase.capstone { background: rgba(190, 24, 93, 0.12); color: var(--pink); }
+.week-title { font-family: var(--display); font-size: 22px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; color: var(--text); }
+.week-summary { font-size: 13px; color: var(--text-muted); }
+
+.week-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; font-family: var(--mono); font-size: 11px; color: var(--text-muted); }
+.week-hours { display: flex; align-items: center; gap: 6px; }
+.week-hours-num { color: var(--text); font-weight: 600; font-size: 14px; }
+.week-progress { font-size: 11px; color: var(--text-dim); }
+.week-progress.complete { color: var(--lime); font-weight: 600; }
+
+.week-chevron { color: var(--text-dim); transition: transform 0.3s; font-size: 18px; }
+.week-card.expanded .week-chevron { transform: rotate(180deg); }
+
+.week-tasks { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.week-card.expanded .week-tasks { max-height: 2000px; }
+.week-tasks-inner { padding: 0 28px 24px; border-top: 1px solid var(--border); margin-top: 0; padding-top: 20px; }
+
+.task { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px dashed var(--border); align-items: flex-start; }
+.task:last-child { border-bottom: none; }
+
+.checkbox {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border: 1.5px solid var(--border-bright);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+  background: var(--bg);
+}
+.checkbox:hover { border-color: var(--lime-bright); }
+.checkbox.checked { background: var(--lime-bright); border-color: var(--lime-bright); }
+.checkbox.checked::after { content: '✓'; color: var(--bg); font-weight: 700; font-size: 14px; }
+
+.task-body { flex: 1; min-width: 0; }
+.task-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; transition: color 0.2s; }
+.task.done .task-title { color: var(--text-muted); text-decoration: line-through; text-decoration-color: var(--text-dim); }
+.task-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
+
+.task-resource {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 12px;
+  color: var(--text);
+  transition: all 0.2s;
+  font-family: var(--mono);
+}
+.task-resource:hover { border-color: var(--text); color: var(--text); transform: translateX(2px); }
+.task-resource .type-tag { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; background: var(--surface-2); color: var(--text-muted); font-weight: 600; }
+.task-resource .type-tag.video { background: rgba(194, 65, 12, 0.15); color: var(--coral); }
+.task-resource .type-tag.course { background: rgba(21, 128, 61, 0.15); color: var(--sage); }
+.task-resource .type-tag.doc { background: rgba(161, 98, 7, 0.15); color: var(--gold); }
+.task-resource .type-tag.tool { background: rgba(77, 124, 15, 0.15); color: var(--lime); }
+.task-resource .type-tag.practice { background: rgba(190, 24, 93, 0.15); color: var(--pink); }
+.task-resource .type-tag.paper { background: rgba(140, 132, 116, 0.2); color: var(--text-muted); }
+.task-resource .ext { color: var(--text-dim); }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 22, 18, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.modal-backdrop.active { display: flex; animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: linear-gradient(180deg, var(--surface) 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  animation: slideUp 0.3s ease;
+  box-shadow: 0 20px 60px -20px rgba(0,0,0,0.2);
+}
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-head { display: flex; justify-content: space-between; align-items: start; margin-bottom: 24px; }
+.modal-title { font-family: var(--display); font-size: 24px; font-weight: 600; color: var(--text); }
+.modal-close {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+.modal-close:hover { color: var(--coral); border-color: var(--coral); }
+
+.modal-q { margin-bottom: 20px; }
+.modal-q-label { font-family: var(--mono); font-size: 11px; color: var(--lime); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; font-weight: 600; }
+.modal-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; }
+.modal-opt {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: all 0.15s;
+}
+.modal-opt:hover { border-color: var(--border-bright); }
+.modal-opt.selected { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 600; }
+
+.modal-actions { display: flex; gap: 12px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+.modal-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--sans);
+  transition: all 0.2s;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+.modal-btn:hover { border-color: var(--border-bright); }
+.modal-btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+.modal-btn.primary:hover { box-shadow: 0 6px 20px -4px rgba(0,0,0,0.2); }
+.modal-btn.danger { color: var(--coral); border-color: rgba(194, 65, 12, 0.3); }
+.modal-btn.danger:hover { background: rgba(194, 65, 12, 0.1); border-color: var(--coral); }
+
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--text);
+  border: 1px solid var(--text);
+  color: var(--bg);
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 300;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 40px -10px rgba(0,0,0,0.3);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast .toast-icon { width: 20px; height: 20px; background: var(--lime-bright); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--bg); font-weight: 700; font-size: 12px; }
+
+#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 250; }
+
+@media (max-width: 700px) {
+  .topbar { padding: 12px 16px; }
+  .roadmap-main { padding: 32px 16px 0; }
+  .week-head { padding: 18px 18px; gap: 14px; flex-wrap: wrap; }
+  .week-tasks-inner { padding: 16px 18px 20px; }
+  .week-num { font-size: 28px; }
+  .week-title { font-size: 17px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .section-desc { display: none; }
+  #setup { padding: 40px 16px 60px; }
+  .question { padding: 24px 20px; }
+  .options { margin-left: 0; }
+  .q-hint { margin-left: 0; }
+  .progress-ring-wrap { flex-direction: column; text-align: center; padding: 20px; }
+  .progress-ring-text { text-align: center; }
+  .header-actions { order: 3; width: 100%; justify-content: center; }
+  .resource-grid { grid-template-columns: 1fr; }
+  .phase-intro { flex-direction: column; gap: 6px; }
+}
+
+/* ===== cost labels ===== */
+.cost-tag { font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; font-weight: 600; white-space: nowrap; background: var(--surface-2); color: var(--text-muted); }
+.cost-tag.free { background: rgba(21, 128, 61, 0.15); color: var(--sage); }
+.cost-tag.signin, .cost-tag.tier { background: rgba(161, 98, 7, 0.15); color: var(--gold); }
+.cost-tag.api, .cost-tag.paid { background: rgba(194, 65, 12, 0.15); color: var(--coral); }
+.res-note { font-size: 12px; color: var(--text-dim); margin: -6px 0 14px; }
+
+/* ===== news + resource tools ===== */
+.res-tools { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 10px; }
+.res-tools input, .res-tools select { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 13px; }
+.res-tools input { flex: 1; min-width: 180px; }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<canvas id="confetti"></canvas>
+
+<button class="icon-btn" id="install-btn-setup" style="position:fixed; top:20px; right:64px; z-index:60; display:none;" title="Install app" aria-label="Install app">&#8681;</button>
+<button class="icon-btn theme-toggle" id="theme-toggle-setup" style="position:fixed; top:20px; right:20px; z-index:60;" aria-label="Toggle dark mode">
+  <span class="moon">&#9789;</span><span class="sun">&#9728;</span>
+</button>
+
+<section id="setup" class="screen active">
+  <header class="setup-header">
+    <p class="eyebrow">90-DAY AI LEARNING ROADMAP</p>
+    <h1 class="display-title">What does <em>your</em> AI journey look like?</h1>
+    <p class="subtitle">Answer three questions. Get a week-by-week plan — every task links to a real, free resource. Built for the agentic AI era.</p>
+  </header>
+
+  <div class="questions">
+    <div class="question" data-q="background">
+      <div class="q-header">
+        <span class="q-number">01</span>
+        <h2 class="q-title">Your background</h2>
+      </div>
+      <p class="q-hint">This shapes the structure of your roadmap — not just the labels.</p>
+      <div class="options">
+        <button class="opt-btn" data-value="student">Student</button>
+        <button class="opt-btn" data-value="nontech">Working professional,<br>non-technical</button>
+        <button class="opt-btn" data-value="tech">Working professional,<br>technical</button>
+        <button class="opt-btn" data-value="founder">Founder</button>
+      </div>
+    </div>
+
+    <div class="question" data-q="time">
+      <div class="q-header">
+        <span class="q-number">02</span>
+        <h2 class="q-title">Time per day</h2>
+      </div>
+      <p class="q-hint">Sets weekly hour estimates and pace.</p>
+      <div class="options">
+        <button class="opt-btn" data-value="30min">30 minutes<br><span style="opacity:.6">~3–4 hrs/week</span></button>
+        <button class="opt-btn" data-value="1hr">1 hour<br><span style="opacity:.6">~6–8 hrs/week</span></button>
+        <button class="opt-btn" data-value="2hr">2+ hours<br><span style="opacity:.6">~12–15 hrs/week</span></button>
+      </div>
+    </div>
+
+    <div class="question" data-q="goal">
+      <div class="q-header">
+        <span class="q-number">03</span>
+        <h2 class="q-title">Your goal</h2>
+      </div>
+      <p class="q-hint">What does success look like in 90 days?</p>
+      <div class="options">
+        <button class="opt-btn" data-value="use">Use AI at work</button>
+        <button class="opt-btn" data-value="build">Build with AI</button>
+        <button class="opt-btn" data-value="career">Career switch into AI</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="generate-wrap">
+    <button class="generate-btn" id="generate-btn">Generate my roadmap →</button>
+    <span class="generate-hint" id="generate-hint">Answer all 3 questions to continue</span>
+  </div>
+</section>
+
+<section id="roadmap" class="screen">
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo-mark"></span>
+      <span>My AI Roadmap</span>
+    </div>
+    <div class="profile-chips" id="profile-chips"></div>
+    <div class="header-actions">
+      <div class="streak-chip" id="streak-chip" title="Consecutive days with a task completed">
+        <span class="flame">&#128293;</span><span class="streak-num" id="streak-num">0</span><span>day streak</span>
+      </div>
+      <div class="progress-pill">
+        <span class="num" id="weeks-done">0</span>
+        <span class="total">/ 13 weeks</span>
+      </div>
+      <button class="icon-btn" id="install-btn-roadmap" title="Install app" aria-label="Install app" style="display:none;">&#8681;</button>
+      <button class="icon-btn" id="print-btn" title="Print / Save as PDF" aria-label="Print roadmap">&#128438;</button>
+      <button class="icon-btn theme-toggle" id="theme-toggle-roadmap" title="Toggle dark mode" aria-label="Toggle dark mode">
+        <span class="moon">&#9789;</span><span class="sun">&#9728;</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="roadmap-main">
+    <div class="progress-ring-wrap">
+      <svg class="progress-ring-svg" width="76" height="76" viewBox="0 0 76 76">
+        <circle class="progress-ring-track" cx="38" cy="38" r="32"></circle>
+        <circle class="progress-ring-fill" id="progress-ring-fill" cx="38" cy="38" r="32"></circle>
+        <text class="progress-ring-pct" id="progress-ring-pct" x="38" y="38" text-anchor="middle" dominant-baseline="middle">0%</text>
+      </svg>
+      <div class="progress-ring-text">
+        <div class="progress-ring-title" id="progress-ring-title">Just getting started</div>
+        <div class="progress-ring-sub" id="progress-ring-sub">Complete your first task to begin tracking progress.</div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow" id="hero-eyebrow">YOUR 90-DAY PATH</p>
+        <h1 class="hero-title" id="hero-title">Loading…</h1>
+        <p class="hero-sub" id="hero-sub">Loading…</p>
+      </div>
+      <div class="stats" id="stats">
+        <div class="stat"><div class="stat-num lime" id="stat-weeks">13</div><div class="stat-label">weeks</div></div>
+        <div class="stat"><div class="stat-num" id="stat-hours">—</div><div class="stat-label">total hours</div></div>
+        <div class="stat"><div class="stat-num" id="stat-tasks">—</div><div class="stat-label">tasks</div></div>
+        <div class="stat"><div class="stat-num lime" id="stat-done">0</div><div class="stat-label">completed</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Skill <em>tree</em></h2>
+        <p class="section-desc">Complete each week to unlock the next. Phases build on each other — foundations, tools, building, advanced, capstone.</p>
+      </div>
+      <div class="skill-tree-wrap">
+        <svg id="skill-tree" viewBox="0 0 1200 320" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="skill-legend">
+          <div class="legend-item"><span class="legend-dot" style="background:var(--sage)"></span>Foundations</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--gold)"></span>Tools</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--lime-bright)"></span>Building</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--coral)"></span>Advanced</div>
+          <div class="legend-item"><span class="legend-dot" style="background:var(--pink)"></span>Capstone</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Week by <em>week</em></h2>
+        <p class="section-desc">Click a week to expand. Check off tasks as you go — your progress saves automatically.</p>
+      </div>
+      <div id="weeks-list"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Resource <em>library</em></h2>
+        <p class="section-desc">Every resource in your roadmap, in one place. Filter by type to find what you need.</p>
+      </div>
+      <div class="resource-lib">
+        <div class="resource-filters" id="resource-filters"></div>
+        <div class="res-tools">
+          <input type="search" id="res-search" placeholder="Search resources\u2026" aria-label="Search resources">
+          <select id="res-cost" aria-label="Filter by cost">
+            <option value="all">Any cost</option><option value="free">Free</option><option value="signin">Free \u00b7 sign-in</option>
+            <option value="tier">Free tier</option><option value="api">Needs API credits</option><option value="paid">Paid plan</option>
+          </select>
+        </div>
+        <p class="res-note">Cost labels are a best-effort guide (reviewed Nov 2026). Prices and free tiers change, so check before you pay.</p>
+        <div class="resource-grid" id="resource-grid"></div>
+      </div>
+    </section>
+  </main>
+</section>
+
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 class="modal-title">Adjust your profile</h3>
+      <button class="modal-close" id="modal-close">×</button>
+    </div>
+    <div class="modal-q">
+      <div class="modal-q-label">Background</div>
+      <div class="modal-options" id="modal-bg"></div>
+    </div>
+    <div class="modal-q">
+      <div class="modal-q-label">Time per day</div>
+      <div class="modal-options" id="modal-time"></div>
+    </div>
+    <div class="modal-q">
+      <div class="modal-q-label">Goal</div>
+      <div class="modal-options" id="modal-goal"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-btn danger" id="reset-btn">Reset all progress</button>
+      <button class="modal-btn primary" id="apply-btn">Regenerate roadmap</button>
+    </div>
+    <div class="modal-actions" style="margin-top:12px; padding-top:0; border-top:none;">
+      <button class="modal-btn" id="export-btn">Export backup (.json)</button>
+      <button class="modal-btn" id="import-btn">Import backup</button>
+      <input type="file" id="import-file" accept="application/json" style="display:none;">
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <div class="toast-icon">✓</div>
+  <span id="toast-msg">Week complete!</span>
+</div>
+
+<script>
+// =================================================================
+// RESOURCE POOL
+// =================================================================
+const R = {
+  aiForEveryone: ["Introduction to Generative AI (Google Cloud Tech, YouTube)", "https://www.youtube.com/watch?v=cZaNf2rA30k", "video"],
+  karpathyIntroLLM: ["Intro to Large Language Models (YouTube)", "https://www.youtube.com/watch?v=zjkBMFhNj_g", "video"],
+  karpathyZeroToHero: ["Neural Networks: Zero to Hero (YouTube)", "https://www.youtube.com/playlist?list=PLqYmG7hTraZCDxZ44o4p3N5Anz3lQVvqb", "video"],
+  karpathyBuildGPT: ["Let's build GPT (YouTube)", "https://www.youtube.com/watch?v=kCc8FmEb1nY", "video"],
+  karpathyTokenizer: ["Let's build the GPT Tokenizer (YouTube)", "https://www.youtube.com/watch?v=9-Jl0dxWQs8", "video"],
+  threeb1bNN: ["Neural Networks playlist (3Blue1Brown)", "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi", "video"],
+  threeb1bButWhat: ["But what is a neural network? (3Blue1Brown)", "https://www.youtube.com/watch?v=aircAruvnKk", "video"],
+  threeb1bAttn: ["But what is a GPT? Attention visually explained (3Blue1Brown)", "https://www.youtube.com/watch?v=eMlx5fFNoYc", "video"],
+  fastai: ["Practical Deep Learning for Coders (fast.ai)", "https://course.fast.ai/", "course"],
+  hfNlpCourse: ["Hugging Face NLP Course", "https://huggingface.co/learn/nlp-course", "course"],
+  hfLlmCourse: ["Hugging Face LLM Course", "https://huggingface.co/learn/llm-course", "course"],
+  hfAgentsCourse: ["Hugging Face Agents Course", "https://huggingface.co/learn/agents-course", "course"],
+  hfDiffusionCourse: ["Hugging Face Diffusion Course", "https://huggingface.co/learn/diffusion-course", "course"],
+  dlPromptEng: ["ChatGPT Prompt Engineering for Developers (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/", "course"],
+  dlBuildingSystems: ["Building Systems with the ChatGPT API (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/chatgpt-building-systems/", "course"],
+  dlLangChain: ["LangChain for LLM Application Development (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/", "course"],
+  dlFinetuning: ["Finetuning Large Language Models (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/finetuning-large-language-models/", "course"],
+  dlLangGraph: ["AI Agents in LangGraph (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/", "course"],
+  dlFunctions: ["Functions, Tools and Agents with LangChain (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/functions-tools-agents-langchain/", "course"],
+  dlPairProg: ["Pair Programming with a Large Language Model (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/pair-programming-with-a-large-language-model/", "course"],
+  googleMLCrash: ["Google Machine Learning Crash Course", "https://developers.google.com/machine-learning/crash-course", "course"],
+  googleGenAI: ["Introduction to Large Language Models (Google Cloud Tech, YouTube)", "https://www.youtube.com/watch?v=zizonToFXDs", "video"],
+  openAIDocs: ["OpenAI API Documentation", "https://platform.openai.com/docs/overview", "doc"],
+  openAIPromptEng: ["OpenAI Prompt Engineering Guide", "https://platform.openai.com/docs/guides/prompt-engineering", "doc"],
+  openAIFunctionCall: ["OpenAI Function Calling Guide", "https://platform.openai.com/docs/guides/function-calling", "doc"],
+  openAIStructured: ["OpenAI Structured Outputs Guide", "https://platform.openai.com/docs/guides/structured-outputs", "doc"],
+  openAICookbook: ["OpenAI Cookbook", "https://cookbook.openai.com/", "doc"],
+  anthropicDocs: ["Anthropic Claude Documentation", "https://docs.anthropic.com/en/docs", "doc"],
+  anthropicToolUse: ["Anthropic Tool Use Guide", "https://docs.anthropic.com/en/docs/build-with-claude/tool-use", "doc"],
+  anthropicPromptEng: ["Anthropic Prompt Engineering Interactive Tutorial", "https://github.com/anthropics/prompt-eng-interactive-tutorial", "course"],
+  anthropicCourses: ["Anthropic Courses Repository", "https://github.com/anthropics/courses", "course"],
+  promptGuide: ["Prompt Engineering Guide (DAIR.AI)", "https://www.promptingguide.ai/", "doc"],
+  promptGuideRisks: ["Prompt Engineering — Risks (DAIR.AI)", "https://www.promptingguide.ai/risks", "doc"],
+  langchainDocs: ["LangChain Documentation", "https://python.langchain.com/docs/get_started/introduction", "doc"],
+  langchainRAG: ["LangChain RAG Tutorial", "https://python.langchain.com/docs/tutorials/rag/", "doc"],
+  langgraphDocs: ["LangGraph Documentation", "https://langchain-ai.github.io/langgraph/", "doc"],
+  llamaindexDocs: ["LlamaIndex Documentation", "https://docs.llamaindex.ai/", "doc"],
+  crewaiDocs: ["CrewAI Documentation", "https://docs.crewai.com/", "doc"],
+  autogenDocs: ["AutoGen Documentation", "https://microsoft.github.io/autogen/", "doc"],
+  mcpDocs: ["Model Context Protocol Documentation", "https://modelcontextprotocol.io/", "doc"],
+  anthropicMCP: ["Anthropic MCP Documentation", "https://docs.anthropic.com/en/docs/agents-and-tools/mcp", "doc"],
+  hfTransformers: ["Hugging Face Transformers Documentation", "https://huggingface.co/docs/transformers/index", "doc"],
+  hfDatasets: ["Hugging Face Datasets Documentation", "https://huggingface.co/docs/datasets/index", "doc"],
+  hfPeft: ["PEFT Documentation (Hugging Face)", "https://huggingface.co/docs/peft/index", "doc"],
+  hfTrl: ["TRL Documentation (Hugging Face)", "https://huggingface.co/docs/trl/index", "doc"],
+  hfModels: ["Hugging Face Model Hub", "https://huggingface.co/models", "tool"],
+  hfSpaces: ["Hugging Face Spaces", "https://huggingface.co/spaces", "tool"],
+  pytorchTutorials: ["PyTorch Tutorials", "https://pytorch.org/tutorials/", "doc"],
+  attentionPaper: ["Attention Is All You Need (arXiv)", "https://arxiv.org/abs/1706.03762", "paper"],
+  gpt3Paper: ["Language Models are Few-Shot Learners (arXiv)", "https://arxiv.org/abs/2005.14165", "paper"],
+  instructGPTPaper: ["Training language models to follow instructions (arXiv)", "https://arxiv.org/abs/2203.02155", "paper"],
+  kaggleLearn: ["Kaggle Learn", "https://www.kaggle.com/learn", "course"],
+  kagglePython: ["Kaggle Python Course", "https://www.kaggle.com/learn/python", "course"],
+  kagglePandas: ["Kaggle Pandas Course", "https://www.kaggle.com/learn/pandas", "course"],
+  kaggleDL: ["Kaggle Intro to Deep Learning", "https://www.kaggle.com/learn/intro-to-deep-learning", "course"],
+  kaggleIntroML: ["Kaggle Intro to Machine Learning", "https://www.kaggle.com/learn/intro-to-machine-learning", "course"],
+  ollama: ["Ollama", "https://ollama.com/", "tool"],
+  lmStudio: ["LM Studio", "https://lmstudio.ai/", "tool"],
+  colab: ["Google Colab", "https://colab.research.google.com/", "tool"],
+  cursor: ["Cursor Editor", "https://cursor.com/", "tool"],
+  githubCopilot: ["GitHub Copilot", "https://github.com/features/copilot", "tool"],
+  v0: ["v0 by Vercel", "https://v0.dev/", "tool"],
+  replit: ["Replit", "https://replit.com/", "tool"],
+  geminiDocs: ["Google Gemini API Documentation", "https://ai.google.dev/gemini-api/docs", "doc"],
+  deepLearningSpec: ["Neural Networks, Deep Learning & AI (StatQuest, YouTube)", "https://www.youtube.com/playlist?list=PLjUC8HjyxGTSrn4cZEw9Uw8R0STaRcbYY", "video"],
+  cs224n: ["Stanford CS224N: NLP with Deep Learning", "https://web.stanford.edu/class/cs224n/", "course"],
+  cs231n: ["Stanford CS231N: Deep Learning for Computer Vision", "https://cs231n.github.io/", "course"],
+  mit6s191: ["MIT 6.S191: Introduction to Deep Learning", "http://introtodeeplearning.com/", "course"],
+  streamlit: ["Streamlit", "https://streamlit.io/", "tool"],
+  gradio: ["Gradio", "https://www.gradio.app/", "tool"],
+  vercel: ["Vercel", "https://vercel.com/", "tool"],
+  vercelAiSdk: ["Vercel AI SDK", "https://sdk.vercel.ai/", "doc"],
+  pinecone: ["Pinecone Vector Database", "https://www.pinecone.io/", "tool"],
+  chroma: ["Chroma Vector Database", "https://www.trychroma.com/", "tool"],
+  qdrant: ["Qdrant Vector Database", "https://qdrant.tech/", "tool"],
+  chatgpt: ["ChatGPT", "https://chatgpt.com/", "tool"],
+  claude: ["Claude", "https://claude.ai/", "tool"],
+  perplexity: ["Perplexity", "https://www.perplexity.ai/", "tool"],
+  notionAI: ["Notion AI", "https://www.notion.so/product/ai", "tool"],
+  zapier: ["Zapier", "https://zapier.com/", "tool"],
+  make: ["Make", "https://www.make.com/", "tool"],
+  n8n: ["n8n", "https://n8n.io/", "tool"],
+  github: ["GitHub", "https://github.com/", "tool"],
+  supabase: ["Supabase", "https://supabase.com/", "tool"],
+  openaiRealtime: ["OpenAI Realtime API Guide", "https://platform.openai.com/docs/guides/realtime", "doc"],
+  openaiAgents: ["OpenAI Agents SDK (GitHub)", "https://github.com/openai/openai-agents-python", "doc"],
+  openaiEvals: ["OpenAI Evals Framework (GitHub)", "https://github.com/openai/evals", "tool"],
+  deepLearningEval: ["Evaluating and Debugging Generative AI (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/evaluating-debugging-generative-ai/", "course"],
+  huggingFaceHub: ["Hugging Face Hub Documentation", "https://huggingface.co/docs/hub/index", "doc"],
+  anthropicClaudeCode: ["Claude Code Documentation", "https://docs.anthropic.com/en/docs/claude-code/overview", "doc"],
+  geminiCodeAssist: ["Google Antigravity (successor to Gemini CLI / Code Assist)", "https://antigravity.google/", "tool"],
+  deepLearningMCP: ["Building with MCP (DeepLearning.AI)", "https://www.deeplearning.ai/short-courses/build-with-mcp/", "course"],
+  // --- Added Nov 2026 refresh ---
+  karpathyDeepDive: ["Deep Dive into LLMs like ChatGPT (Karpathy, YouTube)", "https://www.youtube.com/watch?v=7xTGNNLPyMI", "video"],
+  buildingAgents: ["Building Effective Agents (Anthropic)", "https://www.anthropic.com/engineering/building-effective-agents", "doc"],
+  contextEng: ["Effective Context Engineering for AI Agents (Anthropic)", "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents", "doc"],
+  openaiResponses: ["OpenAI: Migrate to the Responses API", "https://platform.openai.com/docs/guides/migrate-to-responses", "doc"],
+  claudeAgentSDK: ["Claude Agent SDK Documentation", "https://docs.claude.com/en/docs/agent-sdk/overview", "doc"],
+  agentSkills: ["Agent Skills (open standard)", "https://agentskills.io/", "doc"],
+  agentsMd: ["AGENTS.md — instructions for coding agents", "https://agents.md/", "doc"],
+  a2a: ["Agent2Agent (A2A) Protocol", "https://a2a-protocol.org/", "doc"],
+  aaif: ["Agentic AI Foundation (MCP, A2A, Agent Skills)", "https://aaif.io/", "doc"],
+  codexDocs: ["OpenAI Codex Documentation", "https://developers.openai.com/codex", "doc"],
+  antigravity: ["Google Antigravity", "https://antigravity.google/", "tool"],
+  aiStudio: ["Google AI Studio", "https://aistudio.google.com/", "tool"],
+  notebookLM: ["NotebookLM", "https://notebooklm.google.com/", "tool"],
+  smolagents: ["smolagents (Hugging Face)", "https://huggingface.co/docs/smolagents", "doc"],
+  vllm: ["vLLM Documentation", "https://docs.vllm.ai/", "doc"],
+  hamelEvals: ["Your AI Product Needs Evals (Hamel Husain)", "https://hamel.dev/blog/posts/evals/", "doc"],
+  owaspLLM: ["OWASP Top 10 for LLM Applications", "https://genai.owasp.org/llm-top-10/", "doc"],
+  nistRMF: ["NIST AI Risk Management Framework", "https://www.nist.gov/itl/ai-risk-management-framework", "doc"],
+  euAIAct: ["EU AI Act Explorer", "https://artificialintelligenceact.eu/", "doc"],
+  dlAgentic: ["Agentic AI (DeepLearning.AI)", "https://www.deeplearning.ai/courses/agentic-ai/", "course"],
+};
+
+const RES_COST = {
+  aiForEveryone: 'signin',
+  karpathyIntroLLM: 'free',
+  karpathyZeroToHero: 'free',
+  karpathyBuildGPT: 'free',
+  karpathyTokenizer: 'free',
+  threeb1bNN: 'free',
+  threeb1bButWhat: 'free',
+  threeb1bAttn: 'free',
+  fastai: 'free',
+  hfNlpCourse: 'free',
+  hfLlmCourse: 'free',
+  hfAgentsCourse: 'free',
+  hfDiffusionCourse: 'free',
+  dlPromptEng: 'signin',
+  dlBuildingSystems: 'signin',
+  dlLangChain: 'signin',
+  dlFinetuning: 'signin',
+  dlLangGraph: 'signin',
+  dlFunctions: 'signin',
+  dlPairProg: 'signin',
+  googleMLCrash: 'free',
+  googleGenAI: 'free',
+  openAIDocs: 'api',
+  openAIPromptEng: 'api',
+  openAIFunctionCall: 'api',
+  openAIStructured: 'api',
+  openAICookbook: 'free',
+  anthropicDocs: 'api',
+  anthropicToolUse: 'api',
+  anthropicPromptEng: 'api',
+  anthropicCourses: 'api',
+  promptGuide: 'free',
+  promptGuideRisks: 'free',
+  langchainDocs: 'free',
+  langchainRAG: 'free',
+  langgraphDocs: 'free',
+  llamaindexDocs: 'free',
+  crewaiDocs: 'free',
+  autogenDocs: 'free',
+  mcpDocs: 'free',
+  anthropicMCP: 'api',
+  hfTransformers: 'free',
+  hfDatasets: 'free',
+  hfPeft: 'free',
+  hfTrl: 'free',
+  hfModels: 'free',
+  hfSpaces: 'free',
+  pytorchTutorials: 'free',
+  attentionPaper: 'free',
+  gpt3Paper: 'free',
+  instructGPTPaper: 'free',
+  kaggleLearn: 'free',
+  kagglePython: 'free',
+  kagglePandas: 'free',
+  kaggleDL: 'free',
+  kaggleIntroML: 'free',
+  ollama: 'free',
+  lmStudio: 'free',
+  colab: 'tier',
+  cursor: 'tier',
+  githubCopilot: 'tier',
+  v0: 'tier',
+  replit: 'tier',
+  geminiDocs: 'tier',
+  deepLearningSpec: 'signin',
+  cs224n: 'free',
+  cs231n: 'free',
+  mit6s191: 'free',
+  streamlit: 'free',
+  gradio: 'free',
+  vercel: 'tier',
+  vercelAiSdk: 'free',
+  pinecone: 'tier',
+  chroma: 'free',
+  qdrant: 'free',
+  chatgpt: 'tier',
+  claude: 'tier',
+  perplexity: 'tier',
+  notionAI: 'paid',
+  zapier: 'tier',
+  make: 'tier',
+  n8n: 'tier',
+  github: 'free',
+  supabase: 'tier',
+  openaiRealtime: 'api',
+  openaiAgents: 'api',
+  openaiEvals: 'api',
+  deepLearningEval: 'signin',
+  huggingFaceHub: 'free',
+  anthropicClaudeCode: 'paid',
+  geminiCodeAssist: 'tier',
+  deepLearningMCP: 'signin',
+  karpathyDeepDive: 'free',
+  buildingAgents: 'free',
+  contextEng: 'free',
+  openaiResponses: 'api',
+  claudeAgentSDK: 'api',
+  agentSkills: 'free',
+  agentsMd: 'free',
+  a2a: 'free',
+  aaif: 'free',
+  codexDocs: 'paid',
+  antigravity: 'tier',
+  aiStudio: 'tier',
+  notebookLM: 'tier',
+  smolagents: 'free',
+  vllm: 'free',
+  hamelEvals: 'free',
+  owaspLLM: 'free',
+  nistRMF: 'free',
+  euAIAct: 'free',
+  dlAgentic: 'signin'
+};
+const COST_LABEL = { free: 'Free', signin: 'Free \u00b7 sign-in', tier: 'Free tier', api: 'Needs API credits', paid: 'Paid plan' };
+
+function t(title, desc, resKey) {
+  const r = R[resKey];
+  return { title, desc, resourceName: r[0], url: r[1], type: r[2], cost: RES_COST[resKey] || 'free' };
+}
+
+// =================================================================
+// ROADMAP DATA
+// =================================================================
+const PLANS = {
+  student_use: [
+    { title: "AI Literacy Foundations", phase: "foundations", weight: 0.9, summary: "What AI is, what it isn't, and why it matters for your future career.", tasks: [
+      t("Watch Introduction to Generative AI", "Google Cloud Tech's free, beginner-friendly overview — no account or sign-up needed.", "aiForEveryone"),
+      t("Watch Intro to LLMs", "Karpathy's 1-hour talk — beginner-friendly explanation of how LLMs actually work.", "karpathyIntroLLM"),
+      t("Skim the Prompt Engineering Guide", "Get oriented to what prompting is and why it matters.", "promptGuide"),
+    ]},
+    { title: "ChatGPT & Claude Deep Dive", phase: "foundations", weight: 0.9, summary: "Hands-on with the two leading assistants. Compare their strengths.", tasks: [
+      t("Sign up and use ChatGPT", "Try writing, analysis, brainstorming. Note where it shines and where it fails.", "chatgpt"),
+      t("Sign up and use Claude", "Compare on long documents and analytical tasks. Try Claude's Projects feature.", "claude"),
+      t("Read OpenAI's prompt guide", "Learn the basics of effective prompting from the source.", "openAIPromptEng"),
+      t("Try Gemini and NotebookLM too", "Free Google tools: Gemini for general use, NotebookLM to turn your notes and PDFs into a cited study assistant.", "notebookLM"),
+    ]},
+    { title: "Prompt Engineering Practice", phase: "tools", weight: 1.0, summary: "Move from casual use to deliberate, structured prompting.", tasks: [
+      t("Take the prompt engineering course", "Free 1-hour DeepLearning.AI course — covers core techniques.", "dlPromptEng"),
+      t("Work through Anthropic's tutorial", "Interactive notebook — Claude-specific patterns.", "anthropicPromptEng"),
+      t("Practice on real tasks", "Use AI for 3 real study or life tasks this week. Iterate on your prompts.", "chatgpt"),
+    ]},
+    { title: "AI for Research & Writing", phase: "tools", weight: 1.0, summary: "Use AI to research faster and write better — without crossing into plagiarism.", tasks: [
+      t("Try Perplexity for research", "AI-powered search with citations. Use it for a real paper or project.", "perplexity"),
+      t("Use Claude for long-document analysis", "Upload a PDF (paper, textbook chapter) and ask for synthesis.", "claude"),
+      t("Read about AI risks and misuse", "Understand hallucinations, bias, and academic integrity boundaries.", "promptGuideRisks"),
+    ]},
+    { title: "AI for Coding Assistance", phase: "tools", weight: 1.0, summary: "Even without being a developer, AI can help you script, automate, and learn.", tasks: [
+      t("Try ChatGPT for code explanation", "Paste code or a problem, ask it to explain line-by-line.", "chatgpt"),
+      t("Sign up for GitHub Copilot free tier", "Use it in your editor or on GitHub.com for code suggestions.", "githubCopilot"),
+      t("Take pair programming short course", "DeepLearning.AI's free 1-hour course on building with LLMs.", "dlPairProg"),
+    ]},
+    { title: "AI for Data & Analysis", phase: "building", weight: 1.1, summary: "Use AI to analyze spreadsheets, datasets, and research data.", tasks: [
+      t("Use ChatGPT's data analysis", "Upload a CSV and ask for trends, charts, and summaries.", "chatgpt"),
+      t("Take Kaggle's Pandas course", "Free, practical — pairs well with AI assistance.", "kagglePandas"),
+      t("Combine AI + a real dataset", "Find a dataset on Kaggle, ask AI to help you explore it.", "kaggleLearn"),
+    ]},
+    { title: "AI for Creativity & Design", phase: "building", weight: 1.0, summary: "Image, video, and design tools — the generative side of AI.", tasks: [
+      t("Try Hugging Face Spaces for image models", "Free hosted demos of Stable Diffusion and other image models.", "hfSpaces"),
+      t("Take the Hugging Face diffusion course", "Understand how image generation actually works.", "hfDiffusionCourse"),
+      t("Use AI for a real creative project", "Mockup, illustration, or design — ship something.", "hfSpaces"),
+    ]},
+    { title: "AI for Learning Acceleration", phase: "building", weight: 1.0, summary: "Turn AI into a personal tutor for any subject you're studying.", tasks: [
+      t("Build a study tutor in ChatGPT", "Custom GPT that quizzes you on your course material.", "chatgpt"),
+      t("Use Claude for problem decomposition", "Break complex concepts into learning steps.", "claude"),
+      t("Watch Google's Intro to LLMs video", "Free 16-minute explainer on how large language models actually work.", "googleGenAI"),
+    ]},
+    { title: "AI Ethics, Bias & Limitations", phase: "advanced", weight: 0.9, summary: "Understand what AI can't do, and the societal questions it raises.", tasks: [
+      t("Read the AI risks section in Prompt Guide", "Hallucinations, prompt injection, jailbreaks, misuse.", "promptGuideRisks"),
+      t("Watch 3Blue1Brown on neural nets", "Build intuition for what models can and can't understand.", "threeb1bButWhat"),
+      t("Watch Google's Intro to LLMs video", "Covers capabilities, limits, and responsible-use considerations.", "googleGenAI"),
+      t("Learn the NIST AI risk framework basics", "How organisations think about AI risk — useful vocabulary for any career.", "nistRMF"),
+    ]},
+    { title: "Building Simple Automations", phase: "advanced", weight: 1.1, summary: "Chain AI tools together to automate repetitive work.", tasks: [
+      t("Sign up for Zapier free tier", "Connect AI to your other apps — email, sheets, calendar.", "zapier"),
+      t("Try Make or n8n for a workflow", "Build a no-code automation that uses an LLM step.", "make"),
+      t("Build one real automation", "E.g., summarize meeting notes, sort emails, generate weekly report.", "zapier"),
+    ]},
+    { title: "Custom GPTs & Specialized Assistants", phase: "advanced", weight: 1.0, summary: "Build tailored AI assistants for specific tasks.", tasks: [
+      t("Build a Custom GPT in ChatGPT", "Free tier allows it. Give it instructions and knowledge.", "chatgpt"),
+      t("Set up a Claude Project", "Upload reference docs and define Claude's role.", "claude"),
+      t("Create one useful assistant", "Ship something you'll actually use — study buddy, resume reviewer, etc.", "claude"),
+    ]},
+    { title: "Capstone: AI-Augmented Study System", phase: "capstone", weight: 1.2, summary: "Combine everything into a personal AI-augmented learning workflow.", tasks: [
+      t("Design your AI-augmented workflow", "Map out: research → notes → practice → review. Decide where AI helps each step.", "notionAI"),
+      t("Build and document your system", "Use Custom GPTs, Projects, and automations together.", "chatgpt"),
+      t("Write up what you learned", "Document your 90-day journey — share publicly if you can.", "github"),
+    ]},
+    { title: "Future Trends & Continued Learning", phase: "capstone", weight: 0.8, summary: "Where AI is going and how to keep up.", tasks: [
+      t("Watch Karpathy's intro to LLMs again", "Re-watch with 90 days more context — you'll see it differently.", "karpathyIntroLLM"),
+      t("Explore the Hugging Face Hub", "See what models are trending. This is your radar for what's new.", "hfModels"),
+      t("Pick your next 90-day goal", "Decide: go deeper technically, or broader across applications.", "hfModels"),
+    ]},
+  ],
+  student_build: [
+    { title: "Python & Dev Environment", phase: "foundations", weight: 1.1, summary: "Set up a real dev environment. No more browser-only coding.", tasks: [
+      t("Take Kaggle's Python course", "Free, interactive, in-browser. Covers the core you need.", "kagglePython"),
+      t("Set up Google Colab", "Free Python notebooks in the cloud — perfect for AI work.", "colab"),
+      t("Create a GitHub account", "Where you'll host your code by week 13.", "github"),
+    ]},
+    { title: "Python Fundamentals Applied", phase: "foundations", weight: 1.0, summary: "Practice Python by building small things, not just reading.", tasks: [
+      t("Take Kaggle Pandas course", "Data manipulation — essential for AI work.", "kagglePandas"),
+      t("Build a small script in Colab", "Anything: a calculator, a to-do list, a text analyzer.", "colab"),
+      t("Watch Karpathy's Intro to LLMs", "See where this is all heading.", "karpathyIntroLLM"),
+    ]},
+    { title: "AI Fundamentals", phase: "foundations", weight: 1.0, summary: "Understand the concepts behind modern AI before building.", tasks: [
+      t("Watch 3Blue1Brown neural network intro", "Best visual explanation of how neural nets work.", "threeb1bButWhat"),
+      t("Skim the Attention paper", "Don't worry if you don't understand it all — get the gist.", "attentionPaper"),
+      t("Read OpenAI's API overview", "Understand what an LLM API actually is.", "openAIDocs"),
+    ]},
+    { title: "Your First AI Script", phase: "tools", weight: 1.0, summary: "Call an LLM from code for the first time.", tasks: [
+      t("Read OpenAI API docs", "Get your API key, understand the request format.", "openAIDocs"),
+      t("Take the prompt engineering for devs course", "DeepLearning.AI — 1 hour, free, very practical.", "dlPromptEng"),
+      t("Build: call GPT from Python", "In Colab: send a prompt, get a response, print it.", "openAICookbook"),
+    ]},
+    { title: "Building a Chatbot", phase: "tools", weight: 1.1, summary: "Turn API calls into a real interactive experience.", tasks: [
+      t("Take Building Systems with the ChatGPT API", "DeepLearning.AI — chains, prompts, multi-step.", "dlBuildingSystems"),
+      t("Use the OpenAI Cookbook", "Copy a chatbot example, modify it, run it in Colab.", "openAICookbook"),
+      t("Build a CLI chatbot", "Your first real AI app. Even 50 lines counts.", "openAIDocs"),
+    ]},
+    { title: "Prompt Engineering for Builders", phase: "tools", weight: 1.0, summary: "Structured prompting, system messages, and few-shot.", tasks: [
+      t("Read Anthropic's prompt engineering tutorial", "Interactive — Claude-specific but principles transfer.", "anthropicPromptEng"),
+      t("Read DAIR.AI Prompt Guide", "Comprehensive catalog of techniques.", "promptGuide"),
+      t("Refactor your chatbot", "Apply structured prompting, system messages, few-shot examples.", "claude"),
+    ]},
+    { title: "Function Calling & Structured Outputs", phase: "building", weight: 1.1, summary: "Make AI return data your code can use, not just text.", tasks: [
+      t("Read OpenAI Function Calling guide", "How to let the model call your functions.", "openAIFunctionCall"),
+      t("Read OpenAI Structured Outputs guide", "Force the model to return valid JSON.", "openAIStructured"),
+      t("Build: an AI tool that returns structured data", "E.g., summarize an article into a JSON object with title, key_points, sentiment.", "openAICookbook"),
+      t("Try the OpenAI Responses API", "OpenAI's current API for new projects; know how it differs from Chat Completions.", "openaiResponses"),
+    ]},
+    { title: "RAG Fundamentals", phase: "building", weight: 1.2, summary: "Retrieval-Augmented Generation — let AI answer from your data.", tasks: [
+      t("Take LangChain for LLM Apps course", "DeepLearning.AI — RAG is covered here.", "dlLangChain"),
+      t("Read the LangChain RAG tutorial", "Step-by-step, official.", "langchainRAG"),
+      t("Build: a Q&A bot over your notes", "Embed your own text, ask questions, get answers grounded in it.", "langchainDocs"),
+    ]},
+    { title: "Vector Databases", phase: "building", weight: 1.0, summary: "How similarity search actually works.", tasks: [
+      t("Explore Chroma", "Easiest vector DB to start with — pure Python, free.", "chroma"),
+      t("Try Qdrant or Pinecone free tier", "Production-grade vector DBs with free tiers.", "qdrant"),
+      t("Rebuild your RAG bot with a real vector DB", "Move from in-memory lists to a proper database.", "chroma"),
+    ]},
+    { title: "Building AI Agents", phase: "advanced", weight: 1.2, summary: "AI that takes actions, not just answers questions.", tasks: [
+      t("Take AI Agents in LangGraph course", "DeepLearning.AI — agents that loop, reason, use tools.", "dlLangGraph"),
+      t("Read LangGraph docs", "The framework for stateful, multi-step agents.", "langgraphDocs"),
+      t("Build: a research agent", "Agent that takes a question, searches, reads, summarizes.", "langgraphDocs"),
+      t("Read Building Effective Agents", "Anthropic's practical guide: when to use workflows vs. agents, and which patterns actually work.", "buildingAgents"),
+    ]},
+    { title: "Deploying AI Apps", phase: "advanced", weight: 1.1, summary: "Get your app out of Colab and onto the internet.", tasks: [
+      t("Build a UI with Gradio or Streamlit", "Wrap your AI app in a real web interface.", "gradio"),
+      t("Deploy to Hugging Face Spaces", "Free hosting for Python apps.", "hfSpaces"),
+      t("Try Vercel AI SDK", "If you want a JavaScript frontend, this is the easiest path.", "vercelAiSdk"),
+    ]},
+    { title: "Capstone: Ship an AI App", phase: "capstone", weight: 1.3, summary: "Build something real, ship it, share it.", tasks: [
+      t("Design your app", "Pick a problem you actually have. Scope it small.", "github"),
+      t("Build and deploy it", "Use everything: API, RAG, agents, UI, deployment.", "hfSpaces"),
+      t("Write a README and share it", "Post on social, share in communities, get feedback.", "github"),
+    ]},
+    { title: "Portfolio & Open Source", phase: "capstone", weight: 0.9, summary: "Turn your projects into a portfolio that gets you hired.", tasks: [
+      t("Polish your GitHub profile", "Pin your best repos, write good READMEs.", "github"),
+      t("Explore Hugging Face Hub", "Find an open-source project to learn from or contribute to.", "hfModels"),
+      t("Pick your next stack", "Decide: go deeper on agents, learn fine-tuning, or branch into multimodal.", "hfAgentsCourse"),
+    ]},
+  ],
+  student_career: [
+    { title: "Math Foundations Refresher", phase: "foundations", weight: 1.2, summary: "Linear algebra, calculus, probability — the math behind ML.", tasks: [
+      t("Watch 3Blue1Brown Linear Algebra series", "Visual, intuitive — start here. Also linked from the NN playlist.", "threeb1bNN"),
+      t("Take Google ML Crash Course", "Includes math refreshers within ML context.", "googleMLCrash"),
+      t("Read Attention Is All You Need", "The Transformer paper. Skim, note unknowns.", "attentionPaper"),
+    ]},
+    { title: "Python for ML", phase: "foundations", weight: 1.1, summary: "Get fluent in the Python data stack.", tasks: [
+      t("Take Kaggle Python", "If you don't already know Python, start here.", "kagglePython"),
+      t("Take Kaggle Pandas", "Data manipulation — you'll use this daily.", "kagglePandas"),
+      t("Take Kaggle Intro to ML", "First ML concepts, end-to-end.", "kaggleIntroML"),
+    ]},
+    { title: "ML Fundamentals", phase: "foundations", weight: 1.1, summary: "Train your first models. Understand training, evaluation, overfitting.", tasks: [
+      t("Finish Google ML Crash Course", "Complete the exercises — they're worth it.", "googleMLCrash"),
+      t("Take Kaggle Intro to Deep Learning", "Neural networks in Keras.", "kaggleDL"),
+      t("Train a model on a Kaggle dataset", "Titanic or House Prices — ship a submission.", "kaggleLearn"),
+    ]},
+    { title: "Neural Networks Deep Dive", phase: "building", weight: 1.3, summary: "Understand backprop, gradient descent, and how networks learn.", tasks: [
+      t("Watch 3Blue1Brown neural networks playlist", "Four videos that build real intuition.", "threeb1bNN"),
+      t("Start Karpathy's Zero to Hero playlist", "Begin with 'micrograd' — backprop from scratch.", "karpathyZeroToHero"),
+      t("Read PyTorch tutorials intro", "Get the framework that powers modern AI research.", "pytorchTutorials"),
+    ]},
+    { title: "Deep Learning with fast.ai", phase: "building", weight: 1.3, summary: "Top-down, practical deep learning — build first, theory after.", tasks: [
+      t("Start Practical Deep Learning for Coders", "fast.ai's flagship course — free, world-class.", "fastai"),
+      t("Train an image classifier", "Lesson 1 — your first model in under an hour.", "fastai"),
+      t("Train a text classifier", "Lesson 3-4 — transfer learning for NLP.", "fastai"),
+    ]},
+    { title: "Transformer Architecture", phase: "building", weight: 1.3, summary: "The architecture behind GPT, Claude, Gemini, and everything else.", tasks: [
+      t("Watch Karpathy's 'Let's build GPT'", "Code a Transformer from scratch in Python.", "karpathyBuildGPT"),
+      t("Watch Karpathy's tokenizer video", "Understand how text becomes tokens.", "karpathyTokenizer"),
+      t("Watch 3Blue1Brown on attention", "Visual explanation of attention mechanism.", "threeb1bAttn"),
+    ]},
+    { title: "NLP with Hugging Face", phase: "advanced", weight: 1.2, summary: "Use the ecosystem that powers modern NLP.", tasks: [
+      t("Take Hugging Face NLP Course", "Free, comprehensive — uses Transformers library.", "hfNlpCourse"),
+      t("Read Transformers documentation", "The library you'll use for any NLP work.", "hfTransformers"),
+      t("Fine-tune a model on a custom dataset", "Use HF Trainer on a classification task.", "hfTransformers"),
+    ]},
+    { title: "Hugging Face LLM Course", phase: "advanced", weight: 1.2, summary: "Modern LLM workflows — pretraining, fine-tuning, alignment.", tasks: [
+      t("Take Hugging Face LLM Course", "Newer course, focused on LLMs end-to-end.", "hfLlmCourse"),
+      t("Read PEFT documentation", "Parameter-efficient fine-tuning — LoRA and friends.", "hfPeft"),
+      t("Read TRL documentation", "Reinforcement learning for LLM alignment.", "hfTrl"),
+    ]},
+    { title: "Fine-tuning Models", phase: "advanced", weight: 1.3, summary: "Adapt pretrained models to your specific task.", tasks: [
+      t("Take Finetuning LLMs course", "DeepLearning.AI — practical fine-tuning.", "dlFinetuning"),
+      t("Try LoRA fine-tuning in Colab", "Use PEFT to fine-tune a small model on free GPU.", "hfPeft"),
+      t("Push your fine-tuned model to HF Hub", "Share it with the world.", "hfModels"),
+      t("Explore agent building with smolagents", "Open-source agent library from Hugging Face — see how models plan and call tools.", "smolagents"),
+    ]},
+    { title: "Reading Research Papers", phase: "advanced", weight: 1.1, summary: "Read the actual papers — not just summaries.", tasks: [
+      t("Read Attention Is All You Need", "Re-read with full context. Take notes.", "attentionPaper"),
+      t("Read GPT-3 paper", "Few-shot learning at scale.", "gpt3Paper"),
+      t("Read InstructGPT paper", "RLHF — how models learn to follow instructions.", "instructGPTPaper"),
+      t("Study evals before you train", "Read how practitioners test LLM systems. Evaluation skill is rare and hireable.", "hamelEvals"),
+    ]},
+    { title: "Building a Research Project", phase: "advanced", weight: 1.3, summary: "Apply your knowledge to a real problem.", tasks: [
+      t("Pick a problem and dataset", "Browse Kaggle or HF Datasets for something interesting.", "hfDatasets"),
+      t("Reproduce a paper's results", "Find a recent paper with code, replicate on smaller scale.", "hfModels"),
+      t("Document your work", "Write up your process — like a blog post or short paper.", "github"),
+    ]},
+    { title: "Capstone Research Project", phase: "capstone", weight: 1.4, summary: "Ship something you can talk about in interviews.", tasks: [
+      t("Define a research question", "Something answerable in 2-3 weeks of focused work.", "hfDatasets"),
+      t("Execute the project end-to-end", "Data, model, training, eval, analysis.", "pytorchTutorials"),
+      t("Write up and share", "GitHub repo, README, blog post. This is your portfolio piece.", "github"),
+    ]},
+    { title: "Job Search & Portfolio", phase: "capstone", weight: 1.0, summary: "Turn your skills into a job.", tasks: [
+      t("Audit Stanford CS224N lectures", "Watch recent year's lectures — fills gaps, signals rigor.", "cs224n"),
+      t("Audit MIT 6.S191", "Another free, world-class deep learning course.", "mit6s191"),
+      t("Build your job search materials", "Resume, GitHub, project write-ups. Apply widely.", "github"),
+    ]},
+  ],
+  nontech_use: [
+    { title: "What AI Actually Is", phase: "foundations", weight: 0.9, summary: "Cut through the hype. Understand what today's AI can and can't do.", tasks: [
+      t("Watch Introduction to Generative AI", "Free video, designed for non-technical professionals — no jargon.", "aiForEveryone"),
+      t("Watch Karpathy's Intro to LLMs", "1 hour, accessible, no math required.", "karpathyIntroLLM"),
+      t("Skim DAIR.AI Prompt Guide intro", "What prompting is and why it matters.", "promptGuide"),
+    ]},
+    { title: "ChatGPT Hands-On", phase: "foundations", weight: 1.0, summary: "Get past 'hello world' to real, repeated use.", tasks: [
+      t("Create your ChatGPT account", "Free tier is enough to start. Sign in, look around.", "chatgpt"),
+      t("Use it for 5 real work tasks this week", "Email drafts, summaries, brainstorming, meeting prep, document review.", "chatgpt"),
+      t("Read OpenAI's prompt guide", "Practical prompting tips from the source.", "openAIPromptEng"),
+    ]},
+    { title: "Claude & Other Assistants", phase: "foundations", weight: 1.0, summary: "Different tools have different strengths. Compare them.", tasks: [
+      t("Sign up for Claude", "Try it on long documents — Claude shines here.", "claude"),
+      t("Try Perplexity for research", "Replaces Google for many research questions.", "perplexity"),
+      t("Pick your primary tool", "Decide which fits your workflow best — and why.", "claude"),
+      t("Try Gemini and NotebookLM", "Compare assistants on one real work document. NotebookLM answers only from your own sources.", "notebookLM"),
+    ]},
+    { title: "Prompt Engineering for Non-Devs", phase: "tools", weight: 1.1, summary: "Better prompts = better results. This is a learnable skill.", tasks: [
+      t("Take Anthropic's interactive tutorial", "Notebook-based, but no coding required — concepts only.", "anthropicPromptEng"),
+      t("Read DAIR.AI Prompt Guide techniques", "Few-shot, chain-of-thought, role prompting — all explained.", "promptGuide"),
+      t("Rewrite your 5 most-used prompts", "Apply what you learned. Save the improved versions.", "chatgpt"),
+    ]},
+    { title: "AI for Writing & Communication", phase: "tools", weight: 1.0, summary: "Emails, reports, decks — AI accelerates all of it.", tasks: [
+      t("Use Claude for a long document", "Paste a 20-page doc, ask for an exec summary, key points, action items.", "claude"),
+      t("Draft a difficult email with ChatGPT", "Tone adjustment, length variants, A/B versions.", "chatgpt"),
+      t("Try Notion AI", "If you use Notion, the AI features are well-integrated.", "notionAI"),
+    ]},
+    { title: "AI for Research & Analysis", phase: "tools", weight: 1.0, summary: "Faster, deeper research — with citations.", tasks: [
+      t("Use Perplexity for a work research task", "Market research, competitor analysis, vendor comparison.", "perplexity"),
+      t("Use Claude's Projects feature", "Upload reference docs; ask grounded questions.", "claude"),
+      t("Cross-check AI output", "Verify key claims against original sources. Always.", "perplexity"),
+    ]},
+    { title: "AI for Presentations & Visuals", phase: "building", weight: 1.0, summary: "From outline to deck to visuals — faster with AI.", tasks: [
+      t("Use ChatGPT to outline a presentation", "Give it your goal, audience, length. Iterate.", "chatgpt"),
+      t("Generate images with Hugging Face Spaces", "Free image generation models, no install needed.", "hfSpaces"),
+      t("Build a full deck", "Combine AI-generated outline, content, and visuals.", "notionAI"),
+    ]},
+    { title: "AI in Spreadsheets & Data", phase: "building", weight: 1.1, summary: "Analyze data without being a data scientist.", tasks: [
+      t("Upload a CSV to ChatGPT", "Ask for trends, anomalies, summary stats, charts.", "chatgpt"),
+      t("Use Claude for data exploration", "Paste a table, ask questions in plain English.", "claude"),
+      t("Do a real analysis", "Take a work dataset and produce an AI-assisted analysis.", "chatgpt"),
+    ]},
+    { title: "AI for Meeting Productivity", phase: "building", weight: 0.9, summary: "Less time in meetings, more time doing.", tasks: [
+      t("Use AI for meeting prep", "Briefing docs, agenda, anticipated questions.", "claude"),
+      t("Use AI for meeting notes", "Paste transcript, get action items, summaries, follow-ups.", "claude"),
+      t("Build a meeting workflow", "Standardize: prep → meeting → AI summary → tasks.", "notionAI"),
+    ]},
+    { title: "No-Code Automations", phase: "advanced", weight: 1.1, summary: "Make AI work for you while you sleep.", tasks: [
+      t("Sign up for Zapier free tier", "Connect your apps — Gmail, Slack, Sheets, etc.", "zapier"),
+      t("Build a Zap with an AI step", "E.g., incoming email → AI summarizes → posts to Slack.", "zapier"),
+      t("Try Make or n8n", "Alternative automation tools — different strengths.", "make"),
+    ]},
+    { title: "Custom GPTs for Your Work", phase: "advanced", weight: 1.1, summary: "Build specialized assistants for your specific job.", tasks: [
+      t("Build a Custom GPT", "Free ChatGPT tier allows this. Give it a role and instructions.", "chatgpt"),
+      t("Set up a Claude Project", "Upload your style guide, templates, brand voice.", "claude"),
+      t("Ship one assistant you'll use weekly", "E.g., meeting prep bot, report drafter, research assistant.", "claude"),
+    ]},
+    { title: "Capstone: AI-Augmented Workflow", phase: "capstone", weight: 1.2, summary: "Redesign how you work — with AI as a partner, not a toy.", tasks: [
+      t("Map your current workflow", "List your recurring tasks. Where does AI help?", "notionAI"),
+      t("Build your integrated system", "Custom GPTs, Projects, automations — all working together.", "zapier"),
+      t("Measure the impact", "Time saved, quality improved. Document it for your boss or yourself.", "notionAI"),
+    ]},
+    { title: "AI Ethics & Privacy at Work", phase: "capstone", weight: 0.9, summary: "Use AI responsibly — protect your company and yourself.", tasks: [
+      t("Read DAIR.AI risks guide", "Hallucinations, prompt injection, data leakage.", "promptGuideRisks"),
+      t("Review your company's AI policy", "Or, if there isn't one, draft a proposal.", "claude"),
+      t("Plan your next 90 days", "Where will you go deeper? What worked, what didn't?", "notionAI"),
+      t("Check the EU AI Act basics", "Transparency duties apply to many organisations from Aug 2026, and the Omnibus reshaped the AI-literacy duty. Check what applies to your team.", "euAIAct"),
+    ]},
+  ],
+  nontech_build: [
+    { title: "AI Literacy for Builders", phase: "foundations", weight: 0.9, summary: "Understand what you're building with before you build.", tasks: [
+      t("Watch Introduction to Generative AI", "Free video — builds the foundational mental models.", "aiForEveryone"),
+      t("Watch Karpathy's Intro to LLMs", "1 hour — what LLMs are and what they do.", "karpathyIntroLLM"),
+      t("Sign up for ChatGPT and Claude", "You'll need both. Free tiers are fine to start.", "chatgpt"),
+    ]},
+    { title: "Tool Landscape: No-Code AI", phase: "foundations", weight: 1.0, summary: "Survey the tools you'll use to build without coding.", tasks: [
+      t("Explore v0 by Vercel", "Generate UI from text prompts — turns ideas into apps.", "v0"),
+      t("Try Replit", "Hosts and helps you build apps — AI-assisted development.", "replit"),
+      t("Explore Zapier and Make", "The two leading no-code automation platforms.", "zapier"),
+    ]},
+    { title: "Prompt Engineering Deep Dive", phase: "tools", weight: 1.1, summary: "The single most valuable skill for no-code AI building.", tasks: [
+      t("Take Anthropic's interactive tutorial", "Best free prompt engineering course available.", "anthropicPromptEng"),
+      t("Read DAIR.AI Prompt Guide", "Comprehensive — techniques, applications, risks.", "promptGuide"),
+      t("Build a prompt library", "Save your best prompts. Categorize by use case.", "notionAI"),
+    ]},
+    { title: "Custom GPTs", phase: "tools", weight: 1.1, summary: "Build your first AI product — no code required.", tasks: [
+      t("Build a Custom GPT in ChatGPT", "Free tier allows this. Give it instructions and knowledge.", "chatgpt"),
+      t("Set up a Claude Project", "Upload reference docs, define Claude's role and style.", "claude"),
+      t("Publish and share", "Get a link, share with friends or colleagues, iterate.", "chatgpt"),
+    ]},
+    { title: "Building with v0 & Replit", phase: "building", weight: 1.2, summary: "Generate real, working apps from text descriptions.", tasks: [
+      t("Generate a UI with v0", "Describe an app, get working React code + live preview.", "v0"),
+      t("Build an app on Replit", "Use Replit's AI to build something end-to-end.", "replit"),
+      t("Connect your app to an AI API", "Use Vercel AI SDK or direct API calls.", "vercelAiSdk"),
+    ]},
+    { title: "Zapier AI Automations", phase: "building", weight: 1.1, summary: "Chain AI into your existing tools.", tasks: [
+      t("Build a Zap with AI", "E.g., email → AI categorizes → routes to Slack channel.", "zapier"),
+      t("Build an AI-powered workflow", "Multi-step: trigger → AI → action → AI → action.", "zapier"),
+      t("Try Make for complex flows", "Visual programming — more powerful than Zapier for some cases.", "make"),
+    ]},
+    { title: "Claude Projects & Knowledge Tools", phase: "building", weight: 1.0, summary: "Build AI that knows your domain.", tasks: [
+      t("Set up a Claude Project with your data", "Upload PDFs, docs, style guides. Ask grounded questions.", "claude"),
+      t("Build a customer support assistant", "Project with your FAQ + product docs.", "claude"),
+      t("Test and iterate", "Find failure cases, add docs to fill gaps.", "claude"),
+      t("Meet Agent Skills", "Reusable instruction packs that teach an assistant your process. Now supported across 70+ platforms.", "agentSkills"),
+    ]},
+    { title: "AI for Product Design", phase: "building", weight: 1.0, summary: "Use AI in every stage of building — research, design, content.", tasks: [
+      t("Use Perplexity for market research", "Citations, follow-ups, sources — better than Google for this.", "perplexity"),
+      t("Use ChatGPT for product copy", "Landing pages, emails, microcopy. Iterate on tone.", "chatgpt"),
+      t("Generate images with HF Spaces", "Free image generation — mockups, illustrations.", "hfSpaces"),
+    ]},
+    { title: "No-Code Databases & APIs", phase: "advanced", weight: 1.1, summary: "Give your AI apps persistent memory.", tasks: [
+      t("Set up a Supabase project", "Free Postgres + auth + storage. No-code friendly.", "supabase"),
+      t("Connect Supabase to your app", "Use Replit or v0-generated app, wire up to Supabase.", "replit"),
+      t("Use AI to query your data", "Build a flow: user question → AI → SQL → answer.", "supabase"),
+    ]},
+    { title: "Build Your First Real AI App", phase: "advanced", weight: 1.3, summary: "Combine everything into a shipped product.", tasks: [
+      t("Design the app", "What problem? Who's it for? What's the smallest version?", "notionAI"),
+      t("Build it with v0 + Replit + Supabase", "Your stack: AI-generated frontend, hosted backend, AI API.", "v0"),
+      t("Deploy and share", "Get it live, share the link, get feedback.", "vercel"),
+    ]},
+    { title: "Deploying & Sharing", phase: "advanced", weight: 1.0, summary: "Make it real — public, shareable, polished.", tasks: [
+      t("Deploy to Vercel", "Free, fast, reliable hosting for web apps.", "vercel"),
+      t("Add a custom domain", "Optional but professional. ~$10/year.", "vercel"),
+      t("Set up basic analytics", "See who's using it, how. Vercel has built-in.", "vercel"),
+      t("Review AI app security basics", "Skim the OWASP LLM Top 10 so your no-code tool does not leak data or follow malicious input.", "owaspLLM"),
+    ]},
+    { title: "Capstone: Ship an AI Tool", phase: "capstone", weight: 1.3, summary: "Build something people actually use.", tasks: [
+      t("Pick a real problem", "Something you or someone you know actually has.", "perplexity"),
+      t("Build and launch", "Use your full no-code AI stack.", "v0"),
+      t("Get 10 real users", "Friends, family, internet strangers. Iterate based on feedback.", "vercel"),
+    ]},
+    { title: "Iterate, Scale, Monetize", phase: "capstone", weight: 1.0, summary: "Turn your tool into a product.", tasks: [
+      t("Add Stripe or Lemon Squeezy", "If you want to charge. Both have free tiers.", "vercel"),
+      t("Write about what you built", "Twitter/X, LinkedIn, Product Hunt. Share your process.", "notionAI"),
+      t("Pick your next project", "You're a builder now. What's next?", "v0"),
+    ]},
+  ],
+  nontech_career: [
+    { title: "AI Literacy Foundations", phase: "foundations", weight: 0.9, summary: "Understand the field you're moving into.", tasks: [
+      t("Watch Introduction to Generative AI", "Free — required viewing for anyone entering AI.", "aiForEveryone"),
+      t("Watch Karpathy's Intro to LLMs", "What LLMs are, how they're trained, what they can do.", "karpathyIntroLLM"),
+      t("Read DAIR.AI Prompt Guide intro", "Your first taste of prompt engineering.", "promptGuide"),
+    ]},
+    { title: "Programming: Python Basics", phase: "foundations", weight: 1.2, summary: "Python is the language of AI. Start here, no exceptions.", tasks: [
+      t("Take Kaggle Python course", "Free, interactive, in-browser. The right starting point.", "kagglePython"),
+      t("Install Python locally", "Move beyond browser. Set up VS Code or similar.", "kagglePython"),
+      t("Build small scripts", "Calculator, to-do list, file renamer. Practice fundamentals.", "github"),
+    ]},
+    { title: "AI Landscape & Tools", phase: "foundations", weight: 1.0, summary: "What's out there — models, APIs, tools, careers.", tasks: [
+      t("Sign up for ChatGPT and Claude", "Use both. Compare. Understand the differences.", "chatgpt"),
+      t("Explore Hugging Face Hub", "The GitHub of AI models. See what's possible.", "hfModels"),
+      t("Read OpenAI API overview", "Understand how AI is exposed as a service.", "openAIDocs"),
+    ]},
+    { title: "Prompt Engineering", phase: "tools", weight: 1.0, summary: "The first technical AI skill — useful immediately.", tasks: [
+      t("Take prompt engineering for devs course", "DeepLearning.AI — 1 hour, free, foundational.", "dlPromptEng"),
+      t("Work through Anthropic's tutorial", "Interactive notebook. Run it in Colab.", "anthropicPromptEng"),
+      t("Read DAIR.AI Prompt Guide", "Comprehensive reference. Bookmark it.", "promptGuide"),
+    ]},
+    { title: "Python for Data", phase: "tools", weight: 1.2, summary: "Data manipulation — essential for any AI work.", tasks: [
+      t("Take Kaggle Pandas course", "Free, practical, well-structured.", "kagglePandas"),
+      t("Take Google ML Crash Course", "ML fundamentals with Python.", "googleMLCrash"),
+      t("Analyze a real dataset", "Find one on Kaggle. Use Pandas to explore.", "kaggleLearn"),
+    ]},
+    { title: "API Basics", phase: "building", weight: 1.1, summary: "How to call AI from your code.", tasks: [
+      t("Read OpenAI API documentation", "Authentication, requests, responses, errors.", "openAIDocs"),
+      t("Set up Google Colab", "Free Python environment — perfect for learning.", "colab"),
+      t("Call GPT from Python", "Your first AI script. Print the response.", "openAICookbook"),
+    ]},
+    { title: "Building Your First AI Script", phase: "building", weight: 1.1, summary: "Move from API calls to a real program.", tasks: [
+      t("Use OpenAI Cookbook examples", "Copy, run, modify. The Cookbook is gold.", "openAICookbook"),
+      t("Take Building Systems with ChatGPT API", "DeepLearning.AI — multi-step AI programs.", "dlBuildingSystems"),
+      t("Build a CLI chatbot", "Your first real program. 50 lines counts.", "openAIDocs"),
+    ]},
+    { title: "RAG Basics", phase: "building", weight: 1.2, summary: "Make AI answer from your own data.", tasks: [
+      t("Take LangChain for LLM Apps course", "DeepLearning.AI — RAG is covered here.", "dlLangChain"),
+      t("Read LangChain RAG tutorial", "Step-by-step official tutorial.", "langchainRAG"),
+      t("Build Q&A over your notes", "Embed your text, ask questions, get grounded answers.", "langchainDocs"),
+      t("Learn what context engineering means", "The 2026 skill of choosing what the model sees. Read Anthropic's overview.", "contextEng"),
+    ]},
+    { title: "LangChain Essentials", phase: "advanced", weight: 1.2, summary: "The framework that ties AI apps together.", tasks: [
+      t("Read LangChain documentation", "Concepts: chains, agents, prompts, memory.", "langchainDocs"),
+      t("Take Functions, Tools and Agents course", "DeepLearning.AI — agents that use tools.", "dlFunctions"),
+      t("Build a multi-step AI program", "E.g., research assistant: search → read → summarize → cite.", "langchainDocs"),
+    ]},
+    { title: "First AI Project", phase: "advanced", weight: 1.3, summary: "Build something end-to-end. Ship it.", tasks: [
+      t("Design your project", "Small scope. Specific problem. Achievable in a week.", "github"),
+      t("Build it", "API + RAG + UI. Use everything you've learned.", "gradio"),
+      t("Deploy with Hugging Face Spaces", "Free hosting. Get a public URL.", "hfSpaces"),
+      t("Add a basic eval to your project", "List 10 test inputs and expected outputs, then re-run them after each change.", "hamelEvals"),
+    ]},
+    { title: "Building a Portfolio", phase: "advanced", weight: 1.1, summary: "Turn projects into job-ready evidence.", tasks: [
+      t("Polish your GitHub profile", "READMEs, descriptions, pinned repos.", "github"),
+      t("Write up your projects", "What problem, what approach, what you learned.", "github"),
+      t("Explore HF Hub for projects to study", "Find repos you admire. Read their code.", "hfModels"),
+    ]},
+    { title: "Capstone Project", phase: "capstone", weight: 1.4, summary: "The project you'll talk about in every interview.", tasks: [
+      t("Pick a project that shows range", "Use API, RAG, agents, UI, deployment.", "github"),
+      t("Build and ship it", "End-to-end. Documented. Deployed.", "hfSpaces"),
+      t("Write a comprehensive README", "Problem, solution, architecture, results, lessons.", "github"),
+    ]},
+    { title: "Job Search Strategy", phase: "capstone", weight: 1.0, summary: "You're ready. Now get hired.", tasks: [
+      t("Watch Google's Intro to LLMs video", "Free grounding in LLM fundamentals before you go deeper.", "googleGenAI"),
+      t("Build your job search materials", "Resume highlighting projects. LinkedIn updated.", "github"),
+      t("Apply to AI engineer roles", "Target: AI engineer, LLM engineer, ML engineer, AI developer.", "github"),
+    ]},
+  ],
+  tech_use: [
+    { title: "AI Landscape for Developers", phase: "foundations", weight: 0.9, summary: "What's changed in dev tooling — and what's coming.", tasks: [
+      t("Watch Karpathy's Intro to LLMs", "1-hour refresher on what's under the hood.", "karpathyIntroLLM"),
+      t("Read OpenAI API overview", "The API you'll use most.", "openAIDocs"),
+      t("Read Anthropic Claude docs overview", "The other major API. Compare.", "anthropicDocs"),
+    ]},
+    { title: "Cursor & Copilot Deep Dive", phase: "foundations", weight: 1.1, summary: "The two tools that will change how you code daily.", tasks: [
+      t("Install and use Cursor", "VS Code fork with AI deeply integrated. Free tier available.", "cursor"),
+      t("Set up GitHub Copilot", "Free tier available. Use inline completions and chat.", "githubCopilot"),
+      t("Try Google Antigravity", "Google's agent-first coding platform; it replaced Gemini CLI and Code Assist in 2026.", "geminiCodeAssist"),
+    ]},
+    { title: "Prompt Engineering for Code", phase: "tools", weight: 1.0, summary: "Better prompts → better code suggestions.", tasks: [
+      t("Take prompt engineering for devs", "DeepLearning.AI — focused on coding.", "dlPromptEng"),
+      t("Read OpenAI's prompt guide", "General principles, applicable to code.", "openAIPromptEng"),
+      t("Read Anthropic's interactive tutorial", "Notebook-based. Apply to coding tasks.", "anthropicPromptEng"),
+    ]},
+    { title: "AI for Testing & Debugging", phase: "tools", weight: 1.1, summary: "Faster test coverage, faster bug resolution.", tasks: [
+      t("Use AI to generate unit tests", "Cursor or Copilot — generate tests for existing functions.", "cursor"),
+      t("Use AI for debugging", "Paste error + context. AI is excellent at common bugs.", "claude"),
+      t("Build a debugging workflow", "Standardize: error → AI analysis → fix → verify.", "claude"),
+    ]},
+    { title: "AI for Code Review & Refactoring", phase: "tools", weight: 1.0, summary: "Catch issues faster. Modernize legacy code.", tasks: [
+      t("Use AI for code review", "Paste PR diff, ask for issues, security concerns, improvements.", "claude"),
+      t("Use AI for refactoring", "Identify smells, suggest patterns, apply changes.", "cursor"),
+      t("Take pair programming course", "DeepLearning.AI — patterns for AI-assisted dev.", "dlPairProg"),
+    ]},
+    { title: "AI for Documentation", phase: "building", weight: 0.9, summary: "The part of dev work everyone hates — now fast.", tasks: [
+      t("Generate docs from code", "Cursor or Copilot — generate docstrings, READMEs, API docs.", "cursor"),
+      t("Generate architecture docs", "Paste code, get diagrams and explanations.", "claude"),
+      t("Build a docs workflow", "Standardize: code → AI docs → review → publish.", "github"),
+    ]},
+    { title: "AI for System Design", phase: "building", weight: 1.0, summary: "Use AI as a design partner — not just a code generator.", tasks: [
+      t("Use Claude for design reviews", "Paste your design doc, ask for trade-offs, alternatives.", "claude"),
+      t("Use AI to compare approaches", "REST vs GraphQL, SQL vs NoSQL, etc.", "claude"),
+      t("Read OpenAI Cookbook patterns", "Real-world architectural patterns.", "openAICookbook"),
+    ]},
+    { title: "Claude Code & AI Agents", phase: "building", weight: 1.1, summary: "AI that takes multi-step actions in your codebase.", tasks: [
+      t("Read Claude Code documentation", "Anthropic's CLI agent — runs in your terminal.", "anthropicClaudeCode"),
+      t("Use Claude Code on a real task", "Ask it to implement a feature end-to-end.", "anthropicClaudeCode"),
+      t("Explore OpenAI Agents SDK", "Python SDK for building dev agents.", "openaiAgents"),
+      t("Try Codex CLI and compare", "Run the same refactor in Claude Code and Codex; note where each needs steering.", "codexDocs"),
+      t("Write an AGENTS.md for your repo", "Give coding agents build commands, conventions and gotchas. Works across most tools.", "agentsMd"),
+    ]},
+    { title: "Building Dev Automations", phase: "advanced", weight: 1.2, summary: "Codify your AI workflows as reusable scripts.", tasks: [
+      t("Use OpenAI Cookbook as inspiration", "Patterns for AI-assisted dev workflows.", "openAICookbook"),
+      t("Build a custom dev automation", "E.g., auto-generate PR description, summarize changelog.", "openAIDocs"),
+      t("Share with your team", "Internal tools multiply the impact.", "github"),
+    ]},
+    { title: "Team Workflows with AI", phase: "advanced", weight: 1.0, summary: "Get your team using AI consistently — not just individually.", tasks: [
+      t("Draft an AI usage policy", "What's encouraged, what's not, security considerations.", "claude"),
+      t("Set up shared AI resources", "Team Custom GPT, shared prompts, code review templates.", "chatgpt"),
+      t("Measure the impact", "Cycle time, PR throughput, defect rate. Before vs after.", "github"),
+      t("Package a team workflow as an Agent Skill", "Turn your code-review checklist into a reusable skill any agent can load.", "agentSkills"),
+      t("Review prompt-injection risks for agents", "Agents that read repos, issues and web pages can be hijacked by hostile text.", "owaspLLM"),
+    ]},
+    { title: "Capstone: AI-Augmented Dev Workflow", phase: "capstone", weight: 1.2, summary: "Redesign your dev process around AI.", tasks: [
+      t("Map your current dev workflow", "Where's the friction? Where does AI help most?", "claude"),
+      t("Build your integrated system", "Cursor + Copilot + Claude Code + custom automations.", "cursor"),
+      t("Document and share", "Write up what changed, what worked, what didn't.", "github"),
+    ]},
+    { title: "Future of AI-Assisted Dev", phase: "capstone", weight: 0.9, summary: "Where this is going — and how to stay ahead.", tasks: [
+      t("Explore Hugging Face Hub for dev tools", "See what open-source AI dev tools are emerging.", "hfModels"),
+      t("Read Anthropic's latest docs", "Tool use, agents, MCP — where AI dev is heading.", "anthropicDocs"),
+      t("Plan your next 90 days", "Deeper agents? Fine-tuning? Building your own?", "anthropicClaudeCode"),
+    ]},
+  ],
+  tech_build: [
+    { title: "AI Fundamentals for Devs", phase: "foundations", weight: 0.9, summary: "Quick orientation — what you need to know, skipping what you don't.", tasks: [
+      t("Watch Karpathy's Intro to LLMs", "1-hour conceptual overview. Even experienced devs learn something.", "karpathyIntroLLM"),
+      t("Read OpenAI API documentation", "The most-used AI API. Understand authentication, models, params.", "openAIDocs"),
+      t("Read Anthropic Claude documentation", "The other major player. Different strengths, different API.", "anthropicDocs"),
+    ]},
+    { title: "OpenAI & Anthropic APIs", phase: "foundations", weight: 1.1, summary: "Hands-on with both major APIs.", tasks: [
+      t("Build a script with OpenAI API", "Chat completion, streaming, model selection.", "openAIDocs"),
+      t("Build a script with Claude API", "Messages API, system prompts, long context.", "anthropicDocs"),
+      t("Compare on a real task", "Same prompt, both APIs. Note differences in quality, speed, cost.", "openAICookbook"),
+      t("Try the Responses API", "OpenAI's newer API surface for agents and tools; compare with the Messages API.", "openaiResponses"),
+    ]},
+    { title: "Prompt Engineering & Function Calling", phase: "tools", weight: 1.1, summary: "Move from casual prompting to engineered prompts.", tasks: [
+      t("Take prompt engineering for devs", "DeepLearning.AI — covers structured prompting.", "dlPromptEng"),
+      t("Read OpenAI Function Calling guide", "Let the model call your functions. Game-changer.", "openAIFunctionCall"),
+      t("Build a tool-using assistant", "Define a function, let the model decide when to call it.", "openAICookbook"),
+    ]},
+    { title: "Structured Outputs & Tool Use", phase: "tools", weight: 1.1, summary: "Make AI return data your code can rely on.", tasks: [
+      t("Read OpenAI Structured Outputs guide", "Force valid JSON matching a schema.", "openAIStructured"),
+      t("Read Anthropic Tool Use guide", "Claude's approach to tool calling.", "anthropicToolUse"),
+      t("Build: structured data extraction", "E.g., extract entities from text into a typed schema.", "openAICookbook"),
+    ]},
+    { title: "RAG Fundamentals", phase: "building", weight: 1.3, summary: "Retrieval-Augmented Generation — answer from your data.", tasks: [
+      t("Take LangChain for LLM Apps course", "DeepLearning.AI — covers RAG patterns.", "dlLangChain"),
+      t("Read LangChain RAG tutorial", "Official step-by-step.", "langchainRAG"),
+      t("Build a RAG system", "Embed documents, store in Chroma, query with LLM.", "chroma"),
+    ]},
+    { title: "Vector Databases", phase: "building", weight: 1.1, summary: "Production-grade similarity search.", tasks: [
+      t("Try Chroma", "Easiest to start — pure Python, runs locally.", "chroma"),
+      t("Try Qdrant or Pinecone", "Production vector DBs. Free tiers available.", "qdrant"),
+      t("Benchmark on your data", "Same dataset, different DBs. Compare recall, latency, cost.", "chroma"),
+    ]},
+    { title: "LangChain & LlamaIndex", phase: "building", weight: 1.2, summary: "The two leading frameworks for AI apps.", tasks: [
+      t("Read LangChain documentation", "The more general-purpose framework.", "langchainDocs"),
+      t("Read LlamaIndex documentation", "Specialized for RAG and data-augmented AI.", "llamaindexDocs"),
+      t("Build the same app in both", "Compare DX, abstractions, performance.", "langchainDocs"),
+    ]},
+    { title: "LangGraph for Agents", phase: "advanced", weight: 1.3, summary: "Stateful, multi-step AI agents.", tasks: [
+      t("Take AI Agents in LangGraph course", "DeepLearning.AI — practical agent patterns.", "dlLangGraph"),
+      t("Read LangGraph documentation", "Graph-based agent orchestration.", "langgraphDocs"),
+      t("Build a research agent", "Multi-step: search → read → reason → cite → answer.", "langgraphDocs"),
+      t("Read Building Effective Agents", "Decide when you need an agent at all. Often a simple workflow wins.", "buildingAgents"),
+      t("Practise context engineering", "Manage memory, summaries and tool output so long tasks stay on track.", "contextEng"),
+    ]},
+    { title: "MCP & Tool Integration", phase: "advanced", weight: 1.2, summary: "Model Context Protocol — the USB-C of AI tools.", tasks: [
+      t("Read MCP documentation", "Open standard for connecting AI to tools and data.", "mcpDocs"),
+      t("Read Anthropic's MCP docs", "MCP from the source — Anthropic created it.", "anthropicMCP"),
+      t("Build an MCP server", "Expose your tool/API to any MCP-compatible client.", "mcpDocs"),
+      t("Learn Agent Skills and AGENTS.md", "Open standards for packaging instructions and capabilities for agents.", "agentSkills"),
+    ]},
+    { title: "Multi-Agent Systems", phase: "advanced", weight: 1.2, summary: "Multiple specialized agents working together.", tasks: [
+      t("Read CrewAI documentation", "Role-based multi-agent framework.", "crewaiDocs"),
+      t("Read AutoGen documentation", "Microsoft's multi-agent framework.", "autogenDocs"),
+      t("Build a multi-agent system", "E.g., researcher + writer + critic agents collaborating.", "crewaiDocs"),
+      t("Explore the A2A protocol", "Agent-to-agent standard from Google, now under the Linux Foundation alongside MCP.", "a2a"),
+    ]},
+    { title: "Capstone: Agentic AI App", phase: "capstone", weight: 1.4, summary: "Build a production-quality agentic application.", tasks: [
+      t("Design your agentic app", "Real problem, real users, real complexity.", "github"),
+      t("Build it end-to-end", "RAG + LangGraph + MCP + tools + UI + deployment.", "langgraphDocs"),
+      t("Deploy and get real users", "Hugging Face Spaces or Vercel. Share publicly.", "hfSpaces"),
+      t("Add evals and a security review", "Write a regression test set and check against the OWASP LLM Top 10 before launch.", "hamelEvals"),
+    ]},
+    { title: "Open Source & Next Steps", phase: "capstone", weight: 0.9, summary: "You're an AI builder now. What's next?", tasks: [
+      t("Contribute to an open-source AI project", "LangChain, CrewAI, or anything on HF Hub.", "hfModels"),
+      t("Take the Hugging Face Agents Course", "Deeper agents curriculum, free.", "hfAgentsCourse"),
+      t("Plan your next 90 days", "Fine-tuning? Multimodal? Starting a company?", "hfModels"),
+    ]},
+  ],
+  tech_career: [
+    { title: "Math & ML Refresher", phase: "foundations", weight: 1.1, summary: "You know how to code. Now refresh the math behind ML.", tasks: [
+      t("Watch 3Blue1Brown neural networks", "Visual linear algebra and NN intuition.", "threeb1bNN"),
+      t("Take Google ML Crash Course", "ML fundamentals, fast-paced, practical.", "googleMLCrash"),
+      t("Take Kaggle Intro to ML", "Quick hands-on refresher.", "kaggleIntroML"),
+    ]},
+    { title: "ML Fundamentals", phase: "foundations", weight: 1.1, summary: "Train, evaluate, iterate — the core loop.", tasks: [
+      t("Take Kaggle Intro to Deep Learning", "Neural networks in Keras.", "kaggleDL"),
+      t("Start fast.ai course", "Top-down, practical. Best free DL course.", "fastai"),
+      t("Train an image classifier", "Lesson 1 of fast.ai — your first model.", "fastai"),
+    ]},
+    { title: "Neural Networks Deep Dive", phase: "building", weight: 1.3, summary: "Understand backprop, training dynamics, and architecture.", tasks: [
+      t("Start Karpathy's Zero to Hero", "Begin with micrograd — backprop from scratch.", "karpathyZeroToHero"),
+      t("Read PyTorch tutorials", "The framework you'll use for real work.", "pytorchTutorials"),
+      t("Implement a neural net from scratch", "Following Karpathy's micrograd — no framework.", "karpathyZeroToHero"),
+    ]},
+    { title: "Training Models with PyTorch", phase: "building", weight: 1.3, summary: "Real training loops, real GPUs, real debugging.", tasks: [
+      t("Continue PyTorch tutorials", "Specifically: training, data loading, GPU.", "pytorchTutorials"),
+      t("Continue fast.ai", "Lessons 4-6 — training from scratch.", "fastai"),
+      t("Train a model on Colab GPU", "Free GPU. Train a real model end-to-end.", "colab"),
+    ]},
+    { title: "Transformers from Scratch", phase: "building", weight: 1.3, summary: "The architecture behind every modern LLM.", tasks: [
+      t("Watch Karpathy's 'Let's build GPT'", "Code a Transformer from scratch.", "karpathyBuildGPT"),
+      t("Watch Karpathy's tokenizer video", "Tokenization — deceptively important.", "karpathyTokenizer"),
+      t("Read the Attention paper", "With full context now. Take notes.", "attentionPaper"),
+    ]},
+    { title: "Hugging Face Ecosystem", phase: "advanced", weight: 1.2, summary: "The tools you'll use for any NLP/LLM work.", tasks: [
+      t("Take Hugging Face NLP Course", "Free, comprehensive, uses Transformers library.", "hfNlpCourse"),
+      t("Read Transformers documentation", "The library for using pretrained models.", "hfTransformers"),
+      t("Read Datasets documentation", "Loading and processing ML datasets.", "hfDatasets"),
+    ]},
+    { title: "Fine-tuning LLMs", phase: "advanced", weight: 1.3, summary: "Adapt pretrained models to your domain.", tasks: [
+      t("Take Finetuning LLMs course", "DeepLearning.AI — practical fine-tuning.", "dlFinetuning"),
+      t("Read PEFT documentation", "Parameter-efficient fine-tuning (LoRA, QLoRA).", "hfPeft"),
+      t("Fine-tune a model in Colab", "Use PEFT/LoRA on a small model. Push to HF Hub.", "hfPeft"),
+      t("Serve a model with vLLM", "Inference serving is core ML-engineering work: batching, latency, GPU memory.", "vllm"),
+    ]},
+    { title: "Advanced RAG", phase: "advanced", weight: 1.2, summary: "Beyond naive RAG — production-grade retrieval.", tasks: [
+      t("Take LangChain for LLM Apps course", "DeepLearning.AI — RAG patterns.", "dlLangChain"),
+      t("Read LangChain RAG tutorial", "Official, with advanced patterns.", "langchainRAG"),
+      t("Read LlamaIndex documentation", "Specialized RAG framework.", "llamaindexDocs"),
+    ]},
+    { title: "Building AI Agents", phase: "advanced", weight: 1.2, summary: "Agents that reason, use tools, take actions.", tasks: [
+      t("Take AI Agents in LangGraph course", "DeepLearning.AI — agent patterns.", "dlLangGraph"),
+      t("Read LangGraph documentation", "Stateful agent orchestration.", "langgraphDocs"),
+      t("Read MCP documentation", "Open standard for AI tool integration.", "mcpDocs"),
+      t("Study agent design patterns", "Workflows vs. agents, tool design and context management from Anthropic.", "buildingAgents"),
+    ]},
+    { title: "ML Engineering Practices", phase: "advanced", weight: 1.2, summary: "From notebook to production.", tasks: [
+      t("Take Evaluating Generative AI course", "DeepLearning.AI — evals and debugging.", "deepLearningEval"),
+      t("Read OpenAI Evals framework", "Open-source eval framework.", "openaiEvals"),
+      t("Build an eval for your project", "Define metrics, build test set, measure.", "openaiEvals"),
+    ]},
+    { title: "MLOps Foundations", phase: "capstone", weight: 1.2, summary: "Deployment, monitoring, iteration at scale.", tasks: [
+      t("Deploy a model to Hugging Face Spaces", "Free hosting, real URL, real users.", "hfSpaces"),
+      t("Build a Gradio or Streamlit UI", "Wrap your model in a usable interface.", "gradio"),
+      t("Set up monitoring", "Track usage, latency, errors, drift.", "hfSpaces"),
+      t("Build an eval harness for LLM outputs", "Production LLM teams gate releases on evals, not on vibes.", "hamelEvals"),
+    ]},
+    { title: "Capstone ML Project", phase: "capstone", weight: 1.4, summary: "Ship something that proves you can do this end-to-end.", tasks: [
+      t("Define your project", "Real problem, real data, real users.", "hfDatasets"),
+      t("Build it end-to-end", "Data → training → eval → deployment → monitoring.", "pytorchTutorials"),
+      t("Write a comprehensive writeup", "Like a blog post. Problem, approach, results, lessons.", "github"),
+    ]},
+    { title: "Portfolio & Job Search", phase: "capstone", weight: 1.0, summary: "Turn your skills into an AI engineering role.", tasks: [
+      t("Audit Stanford CS224N", "World-class NLP course — fills gaps, signals rigor.", "cs224n"),
+      t("Audit MIT 6.S191", "Another free, top-tier deep learning course.", "mit6s191"),
+      t("Apply to ML/AI engineer roles", "Your portfolio speaks louder than credentials now.", "github"),
+    ]},
+  ],
+  founder_use: [
+    { title: "AI Landscape for Founders", phase: "foundations", weight: 0.9, summary: "What AI can do for your business — and what it can't.", tasks: [
+      t("Watch Introduction to Generative AI", "Free — strategic, non-technical overview.", "aiForEveryone"),
+      t("Watch Karpathy's Intro to LLMs", "1 hour — understand what's under the hood.", "karpathyIntroLLM"),
+      t("Skim DAIR.AI Prompt Guide", "What prompting is — you'll be doing a lot of it.", "promptGuide"),
+      t("Try NotebookLM and Gemini", "Turn market reports and customer calls into searchable, cited briefings.", "notebookLM"),
+    ]},
+    { title: "Quick Wins with ChatGPT", phase: "foundations", weight: 1.0, summary: "Day-one productivity gains across your business.", tasks: [
+      t("Sign up for ChatGPT", "Free tier or Plus for more usage. Start using it daily.", "chatgpt"),
+      t("Use it for 10 founder tasks", "Emails, pitches, job descriptions, market analysis, scripts.", "chatgpt"),
+      t("Read OpenAI's prompt guide", "Better prompts = better output. Worth 30 minutes.", "openAIPromptEng"),
+    ]},
+    { title: "AI for Marketing", phase: "tools", weight: 1.0, summary: "Content, campaigns, positioning — faster and better.", tasks: [
+      t("Use Claude for content strategy", "Paste your brand voice, generate months of content ideas.", "claude"),
+      t("Use ChatGPT for ad copy", "Multiple variants, A/B test angles, audience targeting.", "chatgpt"),
+      t("Generate marketing visuals", "Free image generation models on HF Spaces.", "hfSpaces"),
+    ]},
+    { title: "AI for Sales", phase: "tools", weight: 1.0, summary: "Outreach, qualification, pipeline — AI accelerates all of it.", tasks: [
+      t("Use AI for outreach personalization", "Generate personalized cold emails at scale (with quality control).", "chatgpt"),
+      t("Use Claude for call prep", "Research prospects, generate briefing docs, anticipate objections.", "claude"),
+      t("Use Perplexity for prospect research", "Cited research on companies, industries, decision-makers.", "perplexity"),
+    ]},
+    { title: "AI for Customer Support", phase: "tools", weight: 1.0, summary: "Faster responses, 24/7 coverage, lower costs.", tasks: [
+      t("Set up a Claude Project with your docs", "Upload FAQ, policies, product docs. Ask it support questions.", "claude"),
+      t("Build a Custom GPT for support", "Train it on your support history and policies.", "chatgpt"),
+      t("Measure response quality", "Compare AI responses to your real support tickets.", "claude"),
+    ]},
+    { title: "AI for Operations", phase: "building", weight: 1.1, summary: "Automate the repetitive work that drains your team.", tasks: [
+      t("Sign up for Zapier", "Connect your tools — Gmail, Slack, Sheets, CRM.", "zapier"),
+      t("Build AI-powered Zaps", "Email → AI categorizes → routes. Or: form → AI responds → logs.", "zapier"),
+      t("Try Make for complex flows", "Visual programming — more powerful for multi-step logic.", "make"),
+    ]},
+    { title: "No-Code Automations", phase: "building", weight: 1.1, summary: "Chain AI into your existing stack — no engineers required.", tasks: [
+      t("Map your repetitive workflows", "What does your team do manually every week?", "notionAI"),
+      t("Automate one with Zapier + AI", "Pick the highest-ROI workflow. Build it.", "zapier"),
+      t("Document and delegate", "Now that it's automated, anyone can run it.", "notionAI"),
+    ]},
+    { title: "Internal AI Tools", phase: "building", weight: 1.1, summary: "Build custom tools for your team's specific needs.", tasks: [
+      t("Build Custom GPTs for your team", "Role-specific: sales assistant, ops assistant, HR assistant.", "chatgpt"),
+      t("Set up Claude Projects for knowledge", "Each department has its own project with its docs.", "claude"),
+      t("Try v0 for internal tool UIs", "Generate internal dashboards and tools from text.", "v0"),
+    ]},
+    { title: "Team AI Adoption", phase: "advanced", weight: 1.0, summary: "Get your whole team using AI — not just you.", tasks: [
+      t("Draft an AI usage policy", "What's encouraged, what's restricted, security basics.", "claude"),
+      t("Train your team on prompting", "Share the Anthropic tutorial. Pair-program on prompts.", "anthropicPromptEng"),
+      t("Set up shared AI resources", "Team Custom GPTs, shared prompt library, Claude Projects.", "chatgpt"),
+      t("Know your EU AI Act duties", "If you serve EU customers, transparency rules apply from Aug 2026. Check what applies to you.", "euAIAct"),
+    ]},
+    { title: "AI Strategy & Cost Analysis", phase: "advanced", weight: 1.0, summary: "Where to invest, where to wait, how to measure ROI.", tasks: [
+      t("Map AI opportunities by impact/effort", "Quick wins vs strategic bets.", "notionAI"),
+      t("Estimate costs of AI tooling", "API costs, subscriptions, dev time. Compare to savings.", "openAIDocs"),
+      t("Define success metrics", "Time saved, output quality, revenue impact. Track them.", "notionAI"),
+    ]},
+    { title: "Competitive Intel with AI", phase: "advanced", weight: 1.0, summary: "Use AI to track competitors, markets, and trends.", tasks: [
+      t("Use Perplexity for market research", "Cited research on competitors, segments, trends.", "perplexity"),
+      t("Set up AI news monitoring", "Zapier: news mentions → AI summarizes → posts to Slack.", "zapier"),
+      t("Quarterly competitive review", "Use Claude to synthesize all signals into a strategy doc.", "claude"),
+    ]},
+    { title: "Capstone: AI-Powered Operations", phase: "capstone", weight: 1.2, summary: "Redesign your business operations around AI.", tasks: [
+      t("Map your operations end-to-end", "Every department, every workflow. Where does AI help?", "notionAI"),
+      t("Implement AI across 3 departments", "Marketing, sales, support, ops — pick three. Ship real change.", "zapier"),
+      t("Measure business impact", "Time saved, cost reduced, revenue gained. Document for board/investors.", "notionAI"),
+    ]},
+    { title: "Future-Proofing Your Business", phase: "capstone", weight: 0.9, summary: "Build an AI-aware culture that adapts as AI evolves.", tasks: [
+      t("Read DAIR.AI risks guide", "Understand what could go wrong — for you and your customers.", "promptGuideRisks"),
+      t("Set up quarterly AI reviews", "Tools change, capabilities change. Reassess regularly.", "claude"),
+      t("Plan your next 90 days", "What worked? What didn't? What's next?", "notionAI"),
+    ]},
+  ],
+  founder_build: [
+    { title: "AI Landscape & Opportunities", phase: "foundations", weight: 0.9, summary: "Where the opportunities are — and aren't.", tasks: [
+      t("Watch Introduction to Generative AI", "Free — strategic overview of AI capabilities.", "aiForEveryone"),
+      t("Watch Karpathy's Intro to LLMs", "Understand the tech you're building on.", "karpathyIntroLLM"),
+      t("Explore Hugging Face Hub", "See what models exist. Free R&D.", "hfModels"),
+    ]},
+    { title: "API Basics for Shipping Fast", phase: "foundations", weight: 1.1, summary: "The fastest way to ship AI features: API calls.", tasks: [
+      t("Read OpenAI API docs", "Get a key, make your first call in 5 minutes.", "openAIDocs"),
+      t("Read Anthropic Claude docs", "Alternative API. Different strengths.", "anthropicDocs"),
+      t("Take prompt engineering for devs", "1-hour DeepLearning.AI course.", "dlPromptEng"),
+    ]},
+    { title: "Rapid Prototyping with v0", phase: "tools", weight: 1.2, summary: "Generate working UIs from text descriptions.", tasks: [
+      t("Build a UI with v0", "Describe your AI app's interface. Get working React code.", "v0"),
+      t("Build an MVP on Replit", "Use Replit's AI to build a full app — backend included.", "replit"),
+      t("Read Vercel AI SDK docs", "Easy way to wire AI into a web app.", "vercelAiSdk"),
+    ]},
+    { title: "Prompt Engineering for Products", phase: "tools", weight: 1.0, summary: "Product-grade prompts are different from casual ones.", tasks: [
+      t("Read Anthropic's prompt tutorial", "Interactive, comprehensive, free.", "anthropicPromptEng"),
+      t("Read DAIR.AI Prompt Guide", "Reference for techniques and patterns.", "promptGuide"),
+      t("Take Building Systems with ChatGPT API", "DeepLearning.AI — multi-step AI programs.", "dlBuildingSystems"),
+    ]},
+    { title: "Building AI Features", phase: "building", weight: 1.2, summary: "Add AI to an existing product — or build a new one.", tasks: [
+      t("Use OpenAI Function Calling", "Let AI trigger actions in your product.", "openAIFunctionCall"),
+      t("Use Structured Outputs", "Force reliable JSON for your app to consume.", "openAIStructured"),
+      t("Use the OpenAI Cookbook", "Real-world patterns and examples.", "openAICookbook"),
+      t("Track cost per task, not per token", "Model prices drop fast. Re-check which tier fits each feature every quarter.", "openAIDocs"),
+    ]},
+    { title: "RAG for Product Knowledge", phase: "building", weight: 1.2, summary: "Let your AI product answer from your data.", tasks: [
+      t("Take LangChain for LLM Apps", "DeepLearning.AI — RAG covered here.", "dlLangChain"),
+      t("Read LangChain RAG tutorial", "Official step-by-step.", "langchainRAG"),
+      t("Build a RAG prototype", "Your product docs → embeddings → Q&A.", "chroma"),
+    ]},
+    { title: "Agents for Automation", phase: "building", weight: 1.2, summary: "AI that takes multi-step actions — not just answers.", tasks: [
+      t("Take AI Agents in LangGraph", "DeepLearning.AI — agent patterns.", "dlLangGraph"),
+      t("Read LangGraph documentation", "Build stateful, multi-step agents.", "langgraphDocs"),
+      t("Read MCP documentation", "Open standard for AI tool integration.", "mcpDocs"),
+      t("Read Building Effective Agents", "Know where agents help and where a plain workflow is cheaper and safer.", "buildingAgents"),
+    ]},
+    { title: "No-Code AI MVP", phase: "advanced", weight: 1.3, summary: "Ship an AI MVP in days, not months.", tasks: [
+      t("Generate UI with v0", "Frontend from text prompts.", "v0"),
+      t("Wire up backend on Replit or Supabase", "No servers to manage.", "supabase"),
+      t("Connect AI APIs", "OpenAI or Claude, called from your app.", "vercelAiSdk"),
+    ]},
+    { title: "Custom GPTs for Customers", phase: "advanced", weight: 1.0, summary: "Ship AI tools with zero infrastructure.", tasks: [
+      t("Build a Custom GPT", "Distribute via ChatGPT — no hosting required.", "chatgpt"),
+      t("Set up Claude Projects", "Or distribute via Claude — different audience.", "claude"),
+      t("Test with real customers", "Get feedback. Iterate on prompts and knowledge.", "chatgpt"),
+    ]},
+    { title: "Pricing & Packaging AI", phase: "advanced", weight: 1.0, summary: "AI costs scale with usage — price accordingly.", tasks: [
+      t("Understand AI API pricing", "Per-token costs add up. Read the pricing pages.", "openAIDocs"),
+      t("Design your pricing model", "Subscription? Per-seat? Usage-based? Hybrid?", "claude"),
+      t("Build cost controls", "Rate limits, caching, model routing — protect margins.", "openAICookbook"),
+    ]},
+    { title: "Evals & Quality", phase: "advanced", weight: 1.1, summary: "AI features can break silently. Test them.", tasks: [
+      t("Take Evaluating Generative AI course", "DeepLearning.AI — evals and debugging.", "deepLearningEval"),
+      t("Read OpenAI Evals framework", "Open-source eval tooling.", "openaiEvals"),
+      t("Build evals for your product", "Test cases, golden answers, regression testing.", "openaiEvals"),
+      t("Run a prompt-injection check", "Test your feature against hostile inputs using the OWASP LLM Top 10.", "owaspLLM"),
+    ]},
+    { title: "Capstone: Ship an AI Feature", phase: "capstone", weight: 1.4, summary: "Build and ship a real AI feature to real users.", tasks: [
+      t("Design the feature", "Real customer problem. Small scope. Clear value.", "perplexity"),
+      t("Build and ship it", "Use your full stack: APIs, RAG, agents, evals.", "v0"),
+      t("Get 100 real users", "Measure usage, quality, retention. Iterate.", "vercel"),
+    ]},
+    { title: "Scaling & Team Building", phase: "capstone", weight: 1.0, summary: "From prototype to product to company.", tasks: [
+      t("Deploy on Vercel", "Production hosting that scales with you.", "vercel"),
+      t("Hire your first AI engineer", "Use your capstone project to attract talent.", "github"),
+      t("Plan your next 90 days", "What features next? What market? What funding?", "notionAI"),
+    ]},
+  ],
+  founder_career: [
+    { title: "AI Strategy Landscape", phase: "foundations", weight: 1.0, summary: "Where AI creates defensibility — and where it doesn't.", tasks: [
+      t("Watch Introduction to Generative AI", "Free — strategic framing of AI capabilities.", "aiForEveryone"),
+      t("Watch Karpathy's Intro to LLMs", "Understand the tech you're building on.", "karpathyIntroLLM"),
+      t("Read DAIR.AI Prompt Guide intro", "First principles of working with AI.", "promptGuide"),
+      t("Understand the open agent standards", "MCP, A2A and Agent Skills reduce lock-in. Know which your product should support.", "aaif"),
+    ]},
+    { title: "Technical Foundations Overview", phase: "foundations", weight: 1.1, summary: "Enough technical depth to make build/buy decisions.", tasks: [
+      t("Read OpenAI API documentation", "How AI is delivered as a service.", "openAIDocs"),
+      t("Read Anthropic Claude documentation", "Alternative API. Different strengths.", "anthropicDocs"),
+      t("Take prompt engineering for devs", "1-hour DeepLearning.AI course.", "dlPromptEng"),
+    ]},
+    { title: "Prompt Engineering for Builders", phase: "tools", weight: 1.1, summary: "The skill you'll use to evaluate every AI feature.", tasks: [
+      t("Take Anthropic's interactive tutorial", "Best free prompt engineering course.", "anthropicPromptEng"),
+      t("Read DAIR.AI Prompt Guide", "Comprehensive reference.", "promptGuide"),
+      t("Take Building Systems with ChatGPT API", "Multi-step AI programs.", "dlBuildingSystems"),
+    ]},
+    { title: "APIs & Integration Patterns", phase: "tools", weight: 1.1, summary: "How modern AI apps are actually architected.", tasks: [
+      t("Read OpenAI Function Calling guide", "Let AI trigger actions in your product.", "openAIFunctionCall"),
+      t("Read OpenAI Structured Outputs guide", "Reliable JSON for app integration.", "openAIStructured"),
+      t("Explore OpenAI Cookbook", "Real-world architectural patterns.", "openAICookbook"),
+    ]},
+    { title: "AI Product Architecture", phase: "building", weight: 1.2, summary: "Design AI products that scale and degrade gracefully.", tasks: [
+      t("Read LangChain documentation", "Framework for AI app architecture.", "langchainDocs"),
+      t("Read LlamaIndex documentation", "RAG-specialized framework.", "llamaindexDocs"),
+      t("Read Vercel AI SDK docs", "Modern AI app frontend patterns.", "vercelAiSdk"),
+    ]},
+    { title: "RAG for Domain-Specific AI", phase: "building", weight: 1.2, summary: "Your moat is your data — use it.", tasks: [
+      t("Take LangChain for LLM Apps course", "DeepLearning.AI — RAG patterns.", "dlLangChain"),
+      t("Read LangChain RAG tutorial", "Official step-by-step.", "langchainRAG"),
+      t("Try Chroma or Qdrant", "Vector DBs — the backbone of RAG.", "chroma"),
+    ]},
+    { title: "Agents for Product Features", phase: "building", weight: 1.2, summary: "AI that takes actions — the next product frontier.", tasks: [
+      t("Take AI Agents in LangGraph course", "DeepLearning.AI — agent patterns.", "dlLangGraph"),
+      t("Read LangGraph documentation", "Stateful agent orchestration.", "langgraphDocs"),
+      t("Read MCP documentation", "Open standard for AI tool integration.", "mcpDocs"),
+    ]},
+    { title: "Build vs Buy Decisions", phase: "advanced", weight: 1.0, summary: "When to use APIs, when to fine-tune, when to train from scratch.", tasks: [
+      t("Read Hugging Face Hub", "See what open models are available.", "hfModels"),
+      t("Read PEFT documentation", "Fine-tuning approach for when APIs aren't enough.", "hfPeft"),
+      t("Take Finetuning LLMs course", "When fine-tuning is worth it.", "dlFinetuning"),
+    ]},
+    { title: "AI Engineering Team", phase: "advanced", weight: 1.0, summary: "Hire, structure, and lead an AI engineering team.", tasks: [
+      t("Audit Hugging Face Hub for talent", "Where AI engineers hang out and share work.", "hfModels"),
+      t("Read Anthropic courses", "What AI engineers should know.", "anthropicCourses"),
+      t("Define your hiring process", "Take-home: build an AI feature. Onsite: system design.", "github"),
+      t("Hire for evals and context engineering", "Look for people who can measure quality, not only prompt.", "hamelEvals"),
+    ]},
+    { title: "AI Product Management", phase: "advanced", weight: 1.0, summary: "PM for AI is different — non-determinism, evals, drift.", tasks: [
+      t("Take Evaluating Generative AI course", "DeepLearning.AI — evals are core to AI PM.", "deepLearningEval"),
+      t("Read OpenAI Evals framework", "Open-source eval tooling.", "openaiEvals"),
+      t("Take Building Systems with ChatGPT API", "Multi-step AI programs — core PM unit.", "dlBuildingSystems"),
+    ]},
+    { title: "Go-to-Market for AI", phase: "capstone", weight: 1.0, summary: "AI products have unique GTM dynamics — demo-driven, viral, vertical.", tasks: [
+      t("Build a demo on Hugging Face Spaces", "Free hosting, shareable, viral potential.", "hfSpaces"),
+      t("Generate marketing site with v0", "AI-generated marketing site for your AI product.", "v0"),
+      t("Read OpenAI Cookbook for GTM patterns", "Real-world examples inspire positioning.", "openAICookbook"),
+      t("Map your compliance obligations", "EU AI Act: transparency and GPAI enforcement from Aug 2026; high-risk rules deferred to Dec 2027.", "euAIAct"),
+    ]},
+    { title: "Capstone: AI-First Product Plan", phase: "capstone", weight: 1.3, summary: "A complete plan for your AI-first company.", tasks: [
+      t("Define product and market", "Use Perplexity for research, Claude for synthesis.", "perplexity"),
+      t("Build a working prototype", "v0 + Replit + AI APIs. Real, not slide-ware.", "v0"),
+      t("Write the strategy doc", "Market, product, moat, GTM, team, funding.", "claude"),
+    ]},
+    { title: "Funding & Scaling", phase: "capstone", weight: 1.0, summary: "Raise money, hire, scale — AI-specific considerations.", tasks: [
+      t("Study AI company post-mortems", "Search Hugging Face Hub and GitHub for open-source AI startups.", "hfModels"),
+      t("Read Anthropic's documentation deeply", "Understand the platform you may build on.", "anthropicDocs"),
+      t("Plan your next 90 days", "Build, raise, hire — in what order, at what pace?", "claude"),
+    ]},
+  ]
+};
+
+// =================================================================
+// STATE & PERSISTENCE
+// =================================================================
+const STORAGE_KEY = 'ai_roadmap_v2';
+
+const BG_LABELS = {
+  student: 'Student',
+  nontech: 'Non-tech professional',
+  tech: 'Technical professional',
+  founder: 'Founder'
+};
+const TIME_LABELS = {
+  '30min': '30 min/day',
+  '1hr': '1 hour/day',
+  '2hr': '2+ hours/day'
+};
+const GOAL_LABELS = {
+  use: 'Use AI at work',
+  build: 'Build with AI',
+  career: 'Career switch'
+};
+
+const TIME_HOURS = { '30min': 4, '1hr': 7, '2hr': 14 };
+
+const BG_DESCRIPTIONS = {
+  student_use: "A broad AI literacy journey — survey the landscape, master the tools, build your own AI-augmented study system.",
+  student_build: "Project-driven: learn to code while building real AI apps. By week 13, you'll have a deployed portfolio piece.",
+  student_career: "The rigorous path — math foundations, deep learning, fine-tuning, research. Built for an AI engineering career.",
+  nontech_use: "Workflow integration without writing code. Turn AI from a toy into a daily partner at work.",
+  nontech_build: "Build AI products without learning to code — v0, Custom GPTs, Zapier, and no-code stacks.",
+  nontech_career: "A bridge program: learn Python from scratch, then transition into AI engineering over 90 days.",
+  tech_use: "AI in your dev workflow — Cursor, Copilot, Claude Code, and dev agents. Become 2x as a developer.",
+  tech_build: "Full-stack AI apps: APIs, RAG, LangGraph, MCP, multi-agent systems. Ship production agentic AI.",
+  tech_career: "ML engineering transition — deep learning, training, fine-tuning, MLOps. Move from SWE to ML engineer.",
+  founder_use: "AI across your business — marketing, sales, support, ops. Practical, ROI-focused, no hype.",
+  founder_build: "Ship AI products fast — rapid prototyping, MVP, scaling. From idea to launched AI feature in 90 days.",
+  founder_career: "Build an AI-first company — strategy, architecture, team, GTM. A complete founder playbook.",
+};
+
+const HERO_TITLES = {
+  student_use: "Master the <em>AI toolkit</em>",
+  student_build: "<em>Build</em> with AI, from scratch",
+  student_career: "Your path to an <em>AI career</em>",
+  nontech_use: "AI as your <em>work partner</em>",
+  nontech_build: "<em>Ship</em> AI products, no code",
+  nontech_career: "Become an <em>AI engineer</em>",
+  tech_use: "AI-<em>augmented</em> development",
+  tech_build: "Ship <em>agentic</em> AI apps",
+  tech_career: "Move into <em>ML engineering</em>",
+  founder_use: "AI across your <em>business</em>",
+  founder_build: "<em>Ship</em> AI products, fast",
+  founder_career: "Build an <em>AI-first</em> company",
+};
+
+const PHASE_INTROS = {
+  foundations: "Get oriented. You'll leave this phase understanding the core concepts well enough to talk about AI intelligently and use it daily.",
+  tools: "Move from casual use to deliberate skill. This phase is about developing muscle memory with the tools of the trade.",
+  building: "Start creating, not just consuming. Everything from here on produces something you can point to and say 'I made that.'",
+  advanced: "Push past the basics into the patterns that separate hobbyists from people who ship real things.",
+  capstone: "Bring it all together. This is where 12 weeks of scattered skills become one coherent thing you can show off."
+};
+
+let state = {
+  profile: { background: null, time: null, goal: null },
+  progress: {},
+  theme: 'light',
+  streak: { count: 0, lastDate: null }
+};
+
+let pendingProfile = null;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const saved = JSON.parse(raw);
+    if (!saved || typeof saved !== 'object') return;
+    if (saved.profile && typeof saved.profile === 'object') {
+      if (saved.profile.background) state.profile.background = saved.profile.background;
+      if (saved.profile.time) state.profile.time = saved.profile.time;
+      if (saved.profile.goal) state.profile.goal = saved.profile.goal;
+    }
+    if (saved.progress && typeof saved.progress === 'object') {
+      state.progress = saved.progress;
+    }
+    if (saved.theme === 'dark' || saved.theme === 'light') {
+      state.theme = saved.theme;
+    }
+    if (saved.streak && typeof saved.streak === 'object') {
+      state.streak = { count: saved.streak.count || 0, lastDate: saved.streak.lastDate || null };
+    }
+  } catch(e) {
+    console.warn('Failed to load saved state:', e);
+  }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch(e) {
+    console.warn('Failed to save state:', e);
+  }
+}
+
+// =================================================================
+// THEME
+// =================================================================
+function applyTheme() {
+  if (state.theme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', state.theme === 'dark' ? '#14120f' : '#1a1612');
+}
+
+function toggleTheme() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  applyTheme();
+  saveState();
+}
+
+// =================================================================
+// STREAK TRACKING
+// =================================================================
+function todayStr() {
+  var d = new Date();
+  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+}
+
+function bumpStreak() {
+  var today = todayStr();
+  if (state.streak.lastDate === today) return;
+  var y = new Date();
+  y.setDate(y.getDate() - 1);
+  var yesterday = y.getFullYear() + '-' + (y.getMonth() + 1) + '-' + y.getDate();
+  if (state.streak.lastDate === yesterday) {
+    state.streak.count += 1;
+  } else {
+    state.streak.count = 1;
+  }
+  state.streak.lastDate = today;
+  saveState();
+}
+
+function renderStreak() {
+  var el = document.getElementById('streak-num');
+  if (el) el.textContent = state.streak.count;
+}
+
+function profileKey(p) {
+  const prof = p || state.profile;
+  return prof.background + '_' + prof.goal;
+}
+
+function getCompletedSet() {
+  const key = profileKey();
+  return new Set(state.progress[key] || []);
+}
+
+function setCompleted(taskId, done) {
+  const key = profileKey();
+  if (!state.progress[key]) state.progress[key] = [];
+  const set = new Set(state.progress[key]);
+  if (done) set.add(taskId);
+  else set.delete(taskId);
+  state.progress[key] = Array.from(set);
+  if (done) bumpStreak();
+  saveState();
+}
+
+// =================================================================
+// SETUP SCREEN LOGIC
+// =================================================================
+function renderSetup() {
+  var questions = document.querySelectorAll('.question');
+  for (var qi = 0; qi < questions.length; qi++) {
+    var q = questions[qi];
+    var dim = q.getAttribute('data-q');
+    var btns = q.querySelectorAll('.opt-btn');
+    for (var bi = 0; bi < btns.length; bi++) {
+      (function(btn, dimVal, qEl) {
+        btn.addEventListener('click', function() {
+          var siblings = qEl.querySelectorAll('.opt-btn');
+          for (var si = 0; si < siblings.length; si++) {
+            siblings[si].classList.remove('selected');
+          }
+          btn.classList.add('selected');
+          state.profile[dimVal] = btn.getAttribute('data-value');
+          qEl.classList.add('answered');
+          updateGenerateBtn();
+        });
+      })(btns[bi], dim, q);
+    }
+  }
+
+  var genBtn = document.getElementById('generate-btn');
+  if (genBtn) {
+    genBtn.addEventListener('click', function() {
+      if (state.profile.background && state.profile.time && state.profile.goal) {
+        saveState();
+        showRoadmap();
+      }
+    });
+  }
+}
+
+function updateGenerateBtn() {
+  var all = state.profile.background && state.profile.time && state.profile.goal;
+  var btn = document.getElementById('generate-btn');
+  var hint = document.getElementById('generate-hint');
+  if (!btn || !hint) return;
+  btn.disabled = !all;
+  if (all) {
+    btn.textContent = 'Generate my roadmap →';
+    hint.textContent = 'Ready: ' + BG_LABELS[state.profile.background] + ' · ' + TIME_LABELS[state.profile.time] + ' · ' + GOAL_LABELS[state.profile.goal];
+  } else {
+    var missing = [];
+    if (!state.profile.background) missing.push('background');
+    if (!state.profile.time) missing.push('time');
+    if (!state.profile.goal) missing.push('goal');
+    hint.textContent = 'Choose your ' + missing.join(', ');
+  }
+}
+
+// =================================================================
+// ROADMAP RENDERING
+// =================================================================
+function showRoadmap() {
+  document.getElementById('setup').classList.remove('active');
+  document.getElementById('roadmap').classList.add('active');
+  renderRoadmap();
+  window.scrollTo(0, 0);
+}
+
+
+function renderRoadmap() {
+  var key = profileKey();
+  var plan = PLANS[key];
+  if (!plan) {
+    console.error('No plan found for key:', key);
+    return;
+  }
+
+  var heroTitle = HERO_TITLES[key] || 'Your AI roadmap';
+  document.getElementById('hero-title').innerHTML = heroTitle;
+  document.getElementById('hero-sub').textContent = BG_DESCRIPTIONS[key] || '';
+
+  var chips = document.getElementById('profile-chips');
+  chips.innerHTML =
+    '<div class="chip"><span class="chip-label">BG:</span><span class="chip-value">' + BG_LABELS[state.profile.background] + '</span></div>' +
+    '<div class="chip"><span class="chip-label">Time:</span><span class="chip-value">' + TIME_LABELS[state.profile.time] + '</span></div>' +
+    '<div class="chip"><span class="chip-label">Goal:</span><span class="chip-value">' + GOAL_LABELS[state.profile.goal] + '</span></div>';
+  var chipEls = chips.querySelectorAll('.chip');
+  for (var ci = 0; ci < chipEls.length; ci++) {
+    chipEls[ci].addEventListener('click', openModal);
+  }
+
+  var totalHours = 0;
+  var totalTasks = 0;
+  for (var wi = 0; wi < plan.length; wi++) {
+    totalHours += Math.round(TIME_HOURS[state.profile.time] * plan[wi].weight);
+    totalTasks += plan[wi].tasks.length;
+  }
+  var completed = getCompletedSet();
+  var completedWeeks = 0;
+  for (var wi2 = 0; wi2 < plan.length; wi2++) {
+    var allDone = true;
+    for (var ti = 0; ti < plan[wi2].tasks.length; ti++) {
+      if (!completed.has(key + '_w' + wi2 + '_t' + ti)) { allDone = false; break; }
+    }
+    if (allDone) completedWeeks++;
+  }
+
+  document.getElementById('stat-weeks').textContent = plan.length;
+  document.getElementById('stat-hours').textContent = totalHours;
+  document.getElementById('stat-tasks').textContent = totalTasks;
+  document.getElementById('stat-done').textContent = completed.size;
+  document.getElementById('weeks-done').textContent = completedWeeks;
+
+  renderProgressRing(plan, totalTasks, completed.size, completedWeeks);
+  renderStreak();
+  renderSkillTree(plan, completed);
+  renderWeeks(plan, completed);
+  renderResourceLibrary(plan);
+}
+
+// =================================================================
+// PROGRESS RING
+// =================================================================
+function renderProgressRing(plan, totalTasks, doneCount, completedWeeks) {
+  var pct = totalTasks > 0 ? Math.round((doneCount / totalTasks) * 100) : 0;
+  var r = 32;
+  var circumference = 2 * Math.PI * r;
+  var fill = document.getElementById('progress-ring-fill');
+  var pctText = document.getElementById('progress-ring-pct');
+  if (fill) {
+    fill.style.strokeDasharray = circumference;
+    fill.style.strokeDashoffset = circumference * (1 - pct / 100);
+  }
+  if (pctText) pctText.textContent = pct + '%';
+
+  var title = document.getElementById('progress-ring-title');
+  var sub = document.getElementById('progress-ring-sub');
+  if (title && sub) {
+    if (pct === 0) {
+      title.textContent = 'Just getting started';
+      sub.textContent = 'Complete your first task to begin tracking progress.';
+    } else if (pct === 100) {
+      title.textContent = 'Roadmap complete! 🎉';
+      sub.textContent = 'All ' + plan.length + ' weeks done. Time to pick your next 90 days.';
+    } else {
+      title.textContent = completedWeeks + ' of ' + plan.length + ' weeks complete';
+      sub.textContent = doneCount + ' of ' + totalTasks + ' tasks done — keep the streak going.';
+    }
+  }
+}
+
+// =================================================================
+// RESOURCE LIBRARY
+// =================================================================
+var resourceFilterState = 'all';
+var lastResourcePlan = null;
+var resToolsBound = false;
+function bindResourceTools() {
+  if (resToolsBound) return;
+  resToolsBound = true;
+  var again = function() { if (lastResourcePlan) renderResourceLibrary(lastResourcePlan); };
+  document.getElementById('res-search').addEventListener('input', again);
+  document.getElementById('res-cost').addEventListener('change', again);
+}
+function renderResourceLibrary(plan) {
+  var seen = {};
+  var resources = [];
+  for (var wi = 0; wi < plan.length; wi++) {
+    for (var ti = 0; ti < plan[wi].tasks.length; ti++) {
+      var task = plan[wi].tasks[ti];
+      if (!seen[task.url]) {
+        seen[task.url] = true;
+        resources.push({ name: task.resourceName, url: task.url, type: task.type, cost: task.cost });
+      }
+    }
+  }
+  resources.sort(function(a, b) { return a.name.localeCompare(b.name); });
+
+  var types = ['all'];
+  for (var i = 0; i < resources.length; i++) {
+    if (types.indexOf(resources[i].type) === -1) types.push(resources[i].type);
+  }
+
+  var filterEl = document.getElementById('resource-filters');
+  var filterHTML = '';
+  for (var fi = 0; fi < types.length; fi++) {
+    filterHTML += '<button class="res-filter-btn ' + (resourceFilterState === types[fi] ? 'active' : '') + '" data-type="' + types[fi] + '">' + types[fi] + ' <span style="opacity:.5">(' + (types[fi] === 'all' ? resources.length : resources.filter(function(r){return r.type===types[fi];}).length) + ')</span></button>';
+  }
+  filterEl.innerHTML = filterHTML;
+  var fBtns = filterEl.querySelectorAll('.res-filter-btn');
+  for (var bi = 0; bi < fBtns.length; bi++) {
+    fBtns[bi].addEventListener('click', function() {
+      resourceFilterState = this.getAttribute('data-type');
+      renderResourceLibrary(plan);
+    });
+  }
+
+  var gridEl = document.getElementById('resource-grid');
+  lastResourcePlan = plan;
+  bindResourceTools();
+  var q = (document.getElementById('res-search').value || '').trim().toLowerCase();
+  var costSel = document.getElementById('res-cost').value;
+  var shown = resources.filter(function(r) {
+    return (resourceFilterState === 'all' || r.type === resourceFilterState) &&
+           (costSel === 'all' || r.cost === costSel) &&
+           (!q || r.name.toLowerCase().indexOf(q) !== -1);
+  });
+  if (shown.length === 0) {
+    gridEl.innerHTML = '<div class="res-empty">No resources match. Try clearing the search or filters.</div>';
+    return;
+  }
+  var gridHTML = '';
+  for (var gi = 0; gi < shown.length; gi++) {
+    var r = shown[gi];
+    gridHTML += '<a class="res-card" href="' + r.url + '" target="_blank" rel="noopener">' +
+      '<span class="type-tag ' + r.type + '">' + r.type + '</span>' +
+      '<span class="res-card-name">' + r.name + '</span>' +
+      '<span class="cost-tag ' + r.cost + '">' + COST_LABEL[r.cost] + '</span>' +
+      '<span class="ext" style="color:var(--text-dim)">\u2197</span>' +
+    '</a>';
+  }
+  gridEl.innerHTML = gridHTML;
+}
+
+// =================================================================
+// SKILL TREE SVG
+// =================================================================
+function renderSkillTree(plan, completed) {
+  var svg = document.getElementById('skill-tree');
+  var width = 1200, height = 320;
+  svg.innerHTML = '';
+
+  var phaseColors = {
+    foundations: '#15803d',
+    tools: '#a16207',
+    building: '#4d7c0f',
+    advanced: '#c2410c',
+    capstone: '#be185d'
+  };
+
+  var padding = 80;
+  var usableW = width - padding * 2;
+  var positions = [];
+  for (var i = 0; i < plan.length; i++) {
+    var t = plan.length === 1 ? 0.5 : i / (plan.length - 1);
+    var x = padding + t * usableW;
+    var y = height / 2 + Math.sin(t * Math.PI * 2.5) * 50;
+    positions.push({ x: x, y: y, week: plan[i], index: i });
+  }
+
+  var phases = [];
+  var currentPhase = null;
+  for (var pi = 0; pi < positions.length; pi++) {
+    if (positions[pi].week.phase !== currentPhase) {
+      phases.push({ phase: positions[pi].week.phase, start: pi, end: pi });
+      currentPhase = positions[pi].week.phase;
+    } else {
+      phases[phases.length - 1].end = pi;
+    }
+  }
+
+  var svgNS = 'http://www.w3.org/2000/svg';
+
+  for (var phi = 0; phi < phases.length; phi++) {
+    var ph = phases[phi];
+    var startX = positions[ph.start].x - 40;
+    var endX = positions[ph.end].x + 40;
+    var bandHeight = 180;
+    var bandY = (height - bandHeight) / 2;
+    var rect = document.createElementNS(svgNS, 'rect');
+    rect.setAttribute('x', startX);
+    rect.setAttribute('y', bandY);
+    rect.setAttribute('width', endX - startX);
+    rect.setAttribute('height', bandHeight);
+    rect.setAttribute('rx', 12);
+    rect.setAttribute('fill', phaseColors[ph.phase]);
+    rect.setAttribute('opacity', '0.08');
+    svg.appendChild(rect);
+
+    var label = document.createElementNS(svgNS, 'text');
+    label.setAttribute('x', (startX + endX) / 2);
+    label.setAttribute('y', bandY - 12);
+    label.setAttribute('class', 'phase-label');
+    label.setAttribute('fill', phaseColors[ph.phase]);
+    label.setAttribute('text-anchor', 'middle');
+    label.textContent = ph.phase;
+    svg.appendChild(label);
+  }
+
+  var pathD = 'M ' + positions[0].x + ' ' + positions[0].y;
+  for (var i = 1; i < positions.length; i++) {
+    var prev = positions[i - 1];
+    var curr = positions[i];
+    var cx1 = prev.x + (curr.x - prev.x) / 2;
+    var cx2 = prev.x + (curr.x - prev.x) / 2;
+    pathD += ' C ' + cx1 + ' ' + prev.y + ', ' + cx2 + ' ' + curr.y + ', ' + curr.x + ' ' + curr.y;
+  }
+
+  var bgPath = document.createElementNS(svgNS, 'path');
+  bgPath.setAttribute('d', pathD);
+  bgPath.setAttribute('class', 'skill-path-bg');
+  svg.appendChild(bgPath);
+
+  var key = profileKey();
+  var completedWeeks = [];
+  for (var i = 0; i < plan.length; i++) {
+    var allDone = true;
+    for (var ti = 0; ti < plan[i].tasks.length; ti++) {
+      if (!completed.has(key + '_w' + i + '_t' + ti)) { allDone = false; break; }
+    }
+    if (allDone) completedWeeks.push(i);
+  }
+
+  if (completedWeeks.length > 0) {
+    var fgPath = document.createElementNS(svgNS, 'path');
+    fgPath.setAttribute('d', pathD);
+    fgPath.setAttribute('class', 'skill-path-fg');
+    svg.appendChild(fgPath);
+    var totalLen = bgPath.getTotalLength();
+    var progress = completedWeeks.length / plan.length;
+    fgPath.style.strokeDasharray = totalLen;
+    fgPath.style.strokeDashoffset = totalLen * (1 - progress);
+  }
+
+  var activeIndex = -1;
+  for (var i = 0; i < plan.length; i++) {
+    var isComplete = completedWeeks.indexOf(i) !== -1;
+    if (!isComplete) {
+      if (i === 0 || completedWeeks.indexOf(i - 1) !== -1) {
+        activeIndex = i;
+        break;
+      }
+    }
+  }
+
+  for (var i = 0; i < positions.length; i++) {
+    var pos = positions[i];
+    var isComplete = completedWeeks.indexOf(i) !== -1;
+    var isLocked = i > 0 && completedWeeks.indexOf(i - 1) === -1 && !isComplete;
+    var isActive = i === activeIndex;
+
+    var g = document.createElementNS(svgNS, 'g');
+    var cls = 'node-g';
+    if (isComplete) cls += ' complete';
+    else if (isLocked) cls += ' locked';
+    else if (isActive) cls += ' active';
+    g.setAttribute('class', cls);
+    g.setAttribute('transform', 'translate(' + pos.x + ', ' + pos.y + ')');
+
+    if (isActive || isComplete) {
+      var glow = document.createElementNS(svgNS, 'circle');
+      glow.setAttribute('r', 28);
+      glow.setAttribute('fill', phaseColors[pos.week.phase]);
+      glow.setAttribute('opacity', '0.2');
+      g.appendChild(glow);
+    }
+
+    var circle = document.createElementNS(svgNS, 'circle');
+    circle.setAttribute('r', 22);
+    circle.setAttribute('class', 'node-circle');
+    circle.setAttribute('stroke', phaseColors[pos.week.phase]);
+    if (isComplete) circle.setAttribute('fill', phaseColors[pos.week.phase]);
+    else circle.setAttribute('fill', '#ffffff');
+    g.appendChild(circle);
+
+    var text = document.createElementNS(svgNS, 'text');
+    text.setAttribute('text-anchor', 'middle');
+    text.setAttribute('dy', 5);
+    text.setAttribute('font-family', 'JetBrains Mono, monospace');
+    text.setAttribute('font-size', '13');
+    text.setAttribute('font-weight', '600');
+    text.textContent = isComplete ? '\u2713' : String(i + 1);
+    if (isComplete) text.setAttribute('fill', '#ffffff');
+    else if (isLocked) text.setAttribute('fill', '#8c8474');
+    else if (isActive) text.setAttribute('fill', phaseColors[pos.week.phase]);
+    else text.setAttribute('fill', '#5a5246');
+    g.appendChild(text);
+
+    var label = document.createElementNS(svgNS, 'text');
+    label.setAttribute('class', 'node-label');
+    label.setAttribute('x', 0);
+    label.setAttribute('y', 42);
+    label.setAttribute('text-anchor', 'middle');
+    var weekTitle = pos.week.title.split(':')[0].split('\u2014')[0].trim();
+    label.textContent = weekTitle.length > 22 ? weekTitle.slice(0, 20) + '\u2026' : weekTitle;
+    g.appendChild(label);
+
+    (function(idx, locked) {
+      g.addEventListener('click', function() {
+        var weekEl = document.querySelector('[data-week-index="' + idx + '"]');
+        if (weekEl) {
+          weekEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          if (!locked) {
+            weekEl.classList.add('expanded');
+            setTimeout(function() { updateWeekExpansion(weekEl); }, 100);
+          }
+        }
+      });
+    })(i, isLocked);
+
+    svg.appendChild(g);
+  }
+}
+
+// =================================================================
+// WEEKS LIST
+// =================================================================
+function renderWeeks(plan, completed) {
+  var list = document.getElementById('weeks-list');
+  var key = profileKey();
+  list.innerHTML = '';
+
+  var weekComplete = [];
+  for (var i = 0; i < plan.length; i++) {
+    var allDone = true;
+    for (var ti = 0; ti < plan[i].tasks.length; ti++) {
+      if (!completed.has(key + '_w' + i + '_t' + ti)) { allDone = false; break; }
+    }
+    weekComplete.push(allDone);
+  }
+
+  var lastPhase = null;
+  for (var i = 0; i < plan.length; i++) {
+    var week = plan[i];
+
+    if (week.phase !== lastPhase) {
+      lastPhase = week.phase;
+      var introEl = document.createElement('div');
+      introEl.className = 'phase-intro';
+      introEl.innerHTML =
+        '<span class="phase-intro-dot" style="background:var(--' + (week.phase === 'foundations' ? 'sage' : week.phase === 'tools' ? 'gold' : week.phase === 'building' ? 'lime' : week.phase === 'advanced' ? 'coral' : 'pink') + ')"></span>' +
+        '<div><div class="phase-intro-title" style="color:var(--' + (week.phase === 'foundations' ? 'sage' : week.phase === 'tools' ? 'gold' : week.phase === 'building' ? 'lime' : week.phase === 'advanced' ? 'coral' : 'pink') + ')">' + week.phase + '</div>' +
+        '<div class="phase-intro-desc">' + (PHASE_INTROS[week.phase] || '') + '</div></div>';
+      list.appendChild(introEl);
+    }
+
+    var isComplete = weekComplete[i];
+    var isLocked = i > 0 && !weekComplete[i - 1] && !isComplete;
+    var isActive = !isComplete && !isLocked && (i === 0 || weekComplete[i - 1]);
+    var hours = Math.round(TIME_HOURS[state.profile.time] * week.weight);
+    var doneCount = 0;
+    for (var ti = 0; ti < week.tasks.length; ti++) {
+      if (completed.has(key + '_w' + i + '_t' + ti)) doneCount++;
+    }
+
+    var card = document.createElement('div');
+    card.className = 'week-card';
+    card.style.animationDelay = (Math.min(i, 10) * 0.05) + 's';
+    if (isLocked) card.classList.add('locked');
+    if (isComplete) card.classList.add('complete');
+    if (isActive) card.classList.add('active-week');
+    card.setAttribute('data-week-index', i);
+
+    var isLightPace = state.profile.time === '30min';
+    var tasksHTML = '';
+    for (var ti = 0; ti < week.tasks.length; ti++) {
+      var task = week.tasks[ti];
+      var taskId = key + '_w' + i + '_t' + ti;
+      var done = completed.has(taskId);
+      var isStretch = isLightPace && ti === week.tasks.length - 1;
+      tasksHTML +=
+        '<div class="task ' + (done ? 'done' : '') + (isStretch && !done ? ' stretch-hidden' : '') + '" data-task-id="' + taskId + '"' + (isStretch ? ' data-stretch="1"' : '') + '>' +
+          '<div class="checkbox ' + (done ? 'checked' : '') + '"></div>' +
+          '<div class="task-body">' +
+            '<div class="task-title">' + task.title + (isStretch ? '<span class="task-badge">Stretch</span>' : '') + '</div>' +
+            '<div class="task-desc">' + task.desc + '</div>' +
+            '<a href="' + task.url + '" target="_blank" rel="noopener" class="task-resource">' +
+              '<span class="type-tag ' + task.type + '">' + task.type + '</span>' +
+              '<span>' + task.resourceName + '</span>' +
+              '<span class="cost-tag ' + task.cost + '">' + COST_LABEL[task.cost] + '</span>' +
+              '<span class="ext">\u2197</span>' +
+            '</a>' +
+          '</div>' +
+        '</div>';
+    }
+    if (isLightPace) {
+      tasksHTML += '<button class="stretch-toggle" data-stretch-toggle="1">+ Show optional stretch task (if you have extra time this week)</button>';
+    }
+
+    card.innerHTML =
+      '<div class="week-head">' +
+        '<div class="week-num-block">' +
+          '<div class="week-num-label">WEEK</div>' +
+          '<div class="week-num">' + String(i + 1).padStart(2, '0') + '</div>' +
+        '</div>' +
+        '<div class="week-info">' +
+          '<span class="week-phase ' + week.phase + '">' + week.phase + '</span>' +
+          '<h3 class="week-title">' + week.title + '</h3>' +
+          '<p class="week-summary">' + week.summary + '</p>' +
+        '</div>' +
+        '<div class="week-meta">' +
+          '<div class="week-hours"><span class="week-hours-num">' + hours + 'h</span> est.</div>' +
+          '<div class="week-progress ' + (isComplete ? 'complete' : '') + '">' + doneCount + '/' + week.tasks.length + ' tasks ' + (isComplete ? '\u2713' : '') + '</div>' +
+        '</div>' +
+        '<div class="week-chevron">\u25BE</div>' +
+      '</div>' +
+      '<div class="week-tasks"><div class="week-tasks-inner">' + tasksHTML + '</div></div>';
+
+    (function(cardEl, locked, weekIdx, weekObj, wasComplete) {
+      var head = cardEl.querySelector('.week-head');
+      head.addEventListener('click', function() {
+        if (locked) return;
+        cardEl.classList.toggle('expanded');
+        updateWeekExpansion(cardEl);
+      });
+
+      var stretchToggle = cardEl.querySelector('[data-stretch-toggle]');
+      if (stretchToggle) {
+        stretchToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var hiddenTask = cardEl.querySelector('.task.stretch-hidden');
+          if (hiddenTask) hiddenTask.classList.remove('stretch-hidden');
+          stretchToggle.style.display = 'none';
+          updateWeekExpansion(cardEl);
+        });
+      }
+
+      var taskEls = cardEl.querySelectorAll('.task');
+      for (var ti = 0; ti < taskEls.length; ti++) {
+        (function(taskEl) {
+          var cb = taskEl.querySelector('.checkbox');
+          cb.addEventListener('click', function(e) {
+            e.stopPropagation();
+            var taskId = taskEl.getAttribute('data-task-id');
+            var isDone = cb.classList.contains('checked');
+            cb.classList.toggle('checked');
+            taskEl.classList.toggle('done');
+            setCompleted(taskId, !isDone);
+            setTimeout(function() {
+              var newCompleted = getCompletedSet();
+              var newWeekComplete = true;
+              for (var tj = 0; tj < weekObj.tasks.length; tj++) {
+                if (!newCompleted.has(key + '_w' + weekIdx + '_t' + tj)) { newWeekComplete = false; break; }
+              }
+              if (!wasComplete && newWeekComplete) {
+                celebrateWeek(weekObj.title);
+              }
+              renderRoadmap();
+            }, 200);
+          });
+        })(taskEls[ti]);
+      }
+    })(card, isLocked, i, week, isComplete);
+
+    if (isActive) {
+      card.classList.add('expanded');
+      requestAnimationFrame(function() { updateWeekExpansion(card); });
+    }
+
+    list.appendChild(card);
+  }
+}
+
+function updateWeekExpansion(card) {
+  var tasks = card.querySelector('.week-tasks');
+  if (!tasks) return;
+  if (card.classList.contains('expanded')) {
+    tasks.style.maxHeight = tasks.scrollHeight + 'px';
+  } else {
+    tasks.style.maxHeight = '0';
+  }
+}
+
+// =================================================================
+// PROFILE MODAL
+// =================================================================
+function openModal() {
+  pendingProfile = { background: state.profile.background, time: state.profile.time, goal: state.profile.goal };
+  renderModalOptions();
+  document.getElementById('modal-backdrop').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal-backdrop').classList.remove('active');
+  pendingProfile = null;
+}
+
+function renderModalOptions() {
+  var bgEl = document.getElementById('modal-bg');
+  var timeEl = document.getElementById('modal-time');
+  var goalEl = document.getElementById('modal-goal');
+
+  var bgHTML = '';
+  for (var k in BG_LABELS) {
+    bgHTML += '<button class="modal-opt ' + (pendingProfile.background === k ? 'selected' : '') + '" data-value="' + k + '">' + BG_LABELS[k] + '</button>';
+  }
+  bgEl.innerHTML = bgHTML;
+
+  var timeHTML = '';
+  for (var k in TIME_LABELS) {
+    timeHTML += '<button class="modal-opt ' + (pendingProfile.time === k ? 'selected' : '') + '" data-value="' + k + '">' + TIME_LABELS[k] + '</button>';
+  }
+  timeEl.innerHTML = timeHTML;
+
+  var goalHTML = '';
+  for (var k in GOAL_LABELS) {
+    goalHTML += '<button class="modal-opt ' + (pendingProfile.goal === k ? 'selected' : '') + '" data-value="' + k + '">' + GOAL_LABELS[k] + '</button>';
+  }
+  goalEl.innerHTML = goalHTML;
+
+  function attachHandlers(el, dim) {
+    var opts = el.querySelectorAll('.modal-opt');
+    for (var i = 0; i < opts.length; i++) {
+      opts[i].addEventListener('click', function() {
+        for (var j = 0; j < opts.length; j++) opts[j].classList.remove('selected');
+        this.classList.add('selected');
+        pendingProfile[dim] = this.getAttribute('data-value');
+      });
+    }
+  }
+  attachHandlers(bgEl, 'background');
+  attachHandlers(timeEl, 'time');
+  attachHandlers(goalEl, 'goal');
+}
+
+function applyModal() {
+  if (!pendingProfile) return;
+  var changed = JSON.stringify(pendingProfile) !== JSON.stringify(state.profile);
+  state.profile = pendingProfile;
+  saveState();
+  closeModal();
+  if (changed) {
+    renderRoadmap();
+    showToast('Roadmap regenerated');
+  }
+}
+
+function resetProgress() {
+  if (!window.confirm('Reset all progress for ALL profiles? This cannot be undone.')) return;
+  state.progress = {};
+  saveState();
+  closeModal();
+  renderRoadmap();
+  showToast('Progress reset');
+}
+
+// =================================================================
+// CELEBRATIONS & TOAST
+// =================================================================
+function showToast(msg) {
+  var toast = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(function() { toast.classList.remove('show'); }, 2400);
+}
+
+function celebrateWeek(weekTitle) {
+  showToast('\u2713 ' + weekTitle + ' complete!');
+  fireConfetti();
+}
+
+var confettiCanvas = document.getElementById('confetti');
+var ctx = confettiCanvas.getContext('2d');
+var confettiParticles = [];
+
+function resizeConfetti() {
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+}
+resizeConfetti();
+window.addEventListener('resize', resizeConfetti);
+
+function fireConfetti() {
+  var colors = ['#4d7c0f', '#c2410c', '#a16207', '#15803d', '#be185d', '#1a1612'];
+  var cx = window.innerWidth / 2;
+  var cy = window.innerHeight / 2;
+  for (var i = 0; i < 80; i++) {
+    confettiParticles.push({
+      x: cx, y: cy,
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 1.2) * 12,
+      g: 0.25,
+      size: 4 + Math.random() * 6,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI * 2,
+      vrot: (Math.random() - 0.5) * 0.3,
+      life: 1
+    });
+  }
+  if (!confettiAnimating) animateConfetti();
+}
+
+var confettiAnimating = false;
+function animateConfetti() {
+  confettiAnimating = true;
+  ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+  confettiParticles = confettiParticles.filter(function(p) { return p.life > 0; });
+
+  for (var i = 0; i < confettiParticles.length; i++) {
+    var p = confettiParticles[i];
+    p.vy += p.g;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.vrot;
+    p.life -= 0.008;
+
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+    ctx.restore();
+  }
+
+  if (confettiParticles.length > 0) {
+    requestAnimationFrame(animateConfetti);
+  } else {
+    confettiAnimating = false;
+    ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+  }
+}
+
+// =================================================================
+// INIT
+// =================================================================
+function exportBackup() {
+  try {
+    var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'ai-roadmap-backup.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Backup downloaded');
+  } catch(e) {
+    console.warn('Export failed:', e);
+    showToast('Export failed');
+  }
+}
+
+function importBackup(file) {
+  var reader = new FileReader();
+  reader.onload = function() {
+    try {
+      var parsed = JSON.parse(reader.result);
+      if (!parsed || typeof parsed !== 'object') throw new Error('bad file');
+      if (parsed.profile) state.profile = parsed.profile;
+      if (parsed.progress) state.progress = parsed.progress;
+      if (parsed.streak) state.streak = parsed.streak;
+      if (parsed.theme) { state.theme = parsed.theme; applyTheme(); }
+      saveState();
+      closeModal();
+      if (state.profile.background && state.profile.time && state.profile.goal) {
+        showRoadmap();
+      }
+      showToast('Backup restored');
+    } catch(e) {
+      console.warn('Import failed:', e);
+      showToast('Could not read that file');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function init() {
+  loadState();
+  applyTheme();
+  renderSetup();
+
+  var themeBtns = document.querySelectorAll('.theme-toggle');
+  for (var tbi = 0; tbi < themeBtns.length; tbi++) {
+    themeBtns[tbi].addEventListener('click', toggleTheme);
+  }
+  var printBtn = document.getElementById('print-btn');
+  if (printBtn) printBtn.addEventListener('click', function() { window.print(); });
+
+  var installBtns = [document.getElementById('install-btn-setup'), document.getElementById('install-btn-roadmap')];
+  for (var ibi = 0; ibi < installBtns.length; ibi++) {
+    if (installBtns[ibi]) installBtns[ibi].addEventListener('click', triggerInstall);
+  }
+  if (isIOSSafariStandalonePrompt() && !localStorage.getItem('ai_roadmap_ios_hint_shown')) {
+    setTimeout(function() {
+      showToast('Tip: tap Share, then "Add to Home Screen" to install');
+      localStorage.setItem('ai_roadmap_ios_hint_shown', '1');
+    }, 1500);
+  }
+
+  var exportBtn = document.getElementById('export-btn');
+  if (exportBtn) exportBtn.addEventListener('click', exportBackup);
+  var importBtn = document.getElementById('import-btn');
+  var importFile = document.getElementById('import-file');
+  if (importBtn && importFile) {
+    importBtn.addEventListener('click', function() { importFile.click(); });
+    importFile.addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) importBackup(e.target.files[0]);
+    });
+  }
+
+  var modalClose = document.getElementById('modal-close');
+  if (modalClose) modalClose.addEventListener('click', closeModal);
+  var backdrop = document.getElementById('modal-backdrop');
+  if (backdrop) {
+    backdrop.addEventListener('click', function(e) {
+      if (e.target.id === 'modal-backdrop') closeModal();
+    });
+  }
+  var applyBtn = document.getElementById('apply-btn');
+  if (applyBtn) applyBtn.addEventListener('click', applyModal);
+  var resetBtn = document.getElementById('reset-btn');
+  if (resetBtn) resetBtn.addEventListener('click', resetProgress);
+
+  var questions = document.querySelectorAll('.question');
+  for (var qi = 0; qi < questions.length; qi++) {
+    var q = questions[qi];
+    var dim = q.getAttribute('data-q');
+    var val = state.profile[dim];
+    if (val) {
+      var btn = q.querySelector('[data-value="' + val + '"]');
+      if (btn) btn.classList.add('selected');
+      q.classList.add('answered');
+    }
+  }
+  updateGenerateBtn();
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+}
+
+// =================================================================
+// PWA: SERVICE WORKER + INSTALL PROMPT
+// =================================================================
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('sw.js').catch(function(e) {
+      console.warn('Service worker registration failed:', e);
+    });
+  });
+}
+
+var deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  var btns = [document.getElementById('install-btn-setup'), document.getElementById('install-btn-roadmap')];
+  for (var i = 0; i < btns.length; i++) {
+    if (btns[i]) btns[i].style.display = 'flex';
+  }
+});
+
+function triggerInstall() {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  deferredInstallPrompt.userChoice.then(function() {
+    deferredInstallPrompt = null;
+    var btns = [document.getElementById('install-btn-setup'), document.getElementById('install-btn-roadmap')];
+    for (var i = 0; i < btns.length; i++) {
+      if (btns[i]) btns[i].style.display = 'none';
+    }
+  });
+}
+
+window.addEventListener('appinstalled', function() {
+  deferredInstallPrompt = null;
+  showToast('Installed! Find it on your home screen.');
+});
+
+function isIOSSafariStandalonePrompt() {
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  return isIOS && !isStandalone;
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    try { init(); } catch(e) { console.error('Init error:', e); }
+  });
+} else {
+  try { init(); } catch(e) { console.error('Init error:', e); }
+}
+</script>
+</body>
+</html>
