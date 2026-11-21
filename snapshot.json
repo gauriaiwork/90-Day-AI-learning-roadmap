@@ -1,0 +1,82 @@
+{
+  "updated": "19 Nov 2026",
+  "note": "Model names and releases change quickly. Check vendor pages for current details before you decide.",
+  "cards": [
+    {
+      "tag": "Models",
+      "title": "Frontier releases arrive monthly",
+      "body": "In the past two weeks: OpenAI GPT-6.2 (Astra and Sol), Google Gemini 4, Anthropic Claude Fable 5.2 and Mythos 5.2, Alibaba Qwen4-Max, Meta Muse Ember. Learn to compare models on your own tasks instead of memorising names.",
+      "source": {
+        "url": "https://capitalandcompute.net/blog/new-ai-models-november-2026/",
+        "label": "Capital & Compute, Nov 2026"
+      }
+    },
+    {
+      "tag": "Agents",
+      "title": "Agents are the default way to work",
+      "body": "Coding agents (Claude Code, OpenAI Codex, Cursor, Google Antigravity) plan, edit, test and open pull requests. Google moved Gemini CLI users to Antigravity in June 2026.",
+      "source": {
+        "url": "https://dev.to/owen_fox/agentic-coding-in-2026-claude-code-vs-codex-cli-vs-gemini-cli-vs-cursor-agent-4afn",
+        "label": "DEV Community"
+      }
+    },
+    {
+      "tag": "Standards",
+      "title": "Open agent standards consolidated",
+      "body": "MCP (tools), A2A (agent-to-agent), Agent Skills, AGENTS.md and Open Responses now sit under the Linux Foundation's Agentic AI Foundation, which hosted 10 projects by 22 Oct 2026.",
+      "source": {
+        "url": "https://aaif.io/news/agentic-ai-foundation-announces-four-new-projects",
+        "label": "Agentic AI Foundation, 22 Oct 2026"
+      }
+    },
+    {
+      "tag": "Open weights",
+      "title": "Open models are close behind",
+      "body": "Qwen, NVIDIA Nemotron, Moonshot Kimi and Mistral (Large 4, Oct 2026) ship capable open-weight models you can run or fine-tune yourself.",
+      "source": {
+        "url": "https://en.wikipedia.org/wiki/Mistral_AI",
+        "label": "Wikipedia: Mistral AI"
+      }
+    },
+    {
+      "tag": "Regulation",
+      "title": "EU AI Act: what is live",
+      "body": "Most transparency duties (Article 50) and Commission enforcement of the general-purpose AI rules start 2 Aug 2026; the GPAI duties themselves began in Aug 2025. The Digital Omnibus deferred high-risk duties to 2 Dec 2027 (standalone) and 2 Aug 2028 (embedded products).",
+      "source": {
+        "url": "https://www.processexcellencenetwork.com/ai/articles/eu-ai-act-2026-what-actually-changed-and-what-deployers-still-must-do",
+        "label": "Process Excellence Network"
+      }
+    },
+    {
+      "tag": "Security",
+      "title": "Agent security is a core skill",
+      "body": "Agents read emails, repos and web pages, so hostile text can steer them. Prompt injection, tool permissions and MCP security are now everyday engineering topics.",
+      "source": {
+        "url": "https://www.infoq.com/news/2026/10/agntcon-mcpcon-2026/",
+        "label": "InfoQ, Oct 2026"
+      }
+    }
+  ],
+  "focus": {
+    "student": [
+      "Pick one coding agent and one research assistant; compare them weekly",
+      "Learn to verify AI output: sources, tests, your own reasoning",
+      "Build one agent project and write evals for it"
+    ],
+    "nontech": [
+      "Delegate multi-step tasks to an agent, then review the result",
+      "Package your best prompts as reusable skills or Projects",
+      "Know your organisation's data, privacy and AI Act obligations"
+    ],
+    "tech": [
+      "Context engineering: what the model sees, remembers and forgets",
+      "Evals and regression tests for every LLM feature",
+      "MCP, Agent Skills and agent security (prompt injection, permissions)"
+    ],
+    "founder": [
+      "Re-price features every quarter; model costs keep falling",
+      "Pick open standards (MCP, A2A) to avoid lock-in",
+      "Build evals and a compliance checklist before you scale"
+    ]
+  }
+}
